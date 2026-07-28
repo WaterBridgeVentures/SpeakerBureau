@@ -36,7 +36,7 @@ export function Directory({ speakers }: { speakers: Speaker[] }) {
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search by name…"
           aria-label="Search speakers by name"
-          className={controlCls}
+          className={`${controlCls} sm:col-span-2 lg:col-span-1`}
         />
         <select
           value={industry}

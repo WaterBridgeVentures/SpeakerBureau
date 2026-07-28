@@ -31,7 +31,7 @@ export function SpeakerCard({ speaker }: { speaker: Speaker }) {
         <p className="mt-3 line-clamp-3 text-sm text-gray-500">{speaker.bio}</p>
       )}
 
-      <span className="mt-4 text-sm font-medium text-indigo-600 group-hover:text-indigo-500">
+      <span className="mt-auto pt-4 text-sm font-medium text-indigo-600 group-hover:text-indigo-500">
         View profile →
       </span>
     </Link>

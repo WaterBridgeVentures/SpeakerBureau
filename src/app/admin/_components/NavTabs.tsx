@@ -20,7 +20,7 @@ export function NavTabs({ role }: { role: AdminRole }) {
   const tabs = TABS.filter((t) => !t.superAdminOnly || role === 'super_admin');
 
   return (
-    <nav className="-mb-px flex gap-1 overflow-x-auto" aria-label="Admin sections">
+    <nav className="-mb-px flex flex-wrap gap-1" aria-label="Admin sections">
       {tabs.map((tab) => {
         const active = pathname === tab.href;
         return (
