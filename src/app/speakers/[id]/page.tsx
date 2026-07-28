@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import { createClient } from '@/lib/supabase/server';
+import { SPEAKER_COLUMNS } from '@/lib/constants';
 import { Avatar } from '@/app/speakers/_components/Avatar';
 import { SpecialityTags } from '@/app/speakers/_components/SpecialityTags';
 import { IntroRequestForm } from '@/app/speakers/_components/IntroRequestForm';
@@ -19,7 +20,7 @@ async function getApprovedSpeaker(id: string) {
   const supabase = await createClient();
   const { data } = await supabase
     .from('speakers')
-    .select('*')
+    .select(SPEAKER_COLUMNS)
     .eq('id', id)
     .eq('status', 'approved')
     .maybeSingle();

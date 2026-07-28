@@ -32,6 +32,12 @@ export const DOMAIN_SPECIALITIES: DomainSpeciality[] = [
   'Other',
 ];
 
+// Speaker columns readable by anon/authenticated (everything except the private
+// `email`). Use this instead of '*' anywhere a non-service-role client reads
+// speakers, since selecting `email` there is denied by column grants.
+export const SPEAKER_COLUMNS =
+  'id, name, designation, linkedin_url, photo_url, industry_speciality, domain_speciality, bio, status, created_at';
+
 export const ADMIN_ROLES: AdminRole[] = ['super_admin', 'approver'];
 
 export const ADMIN_ROLE_LABELS: Record<AdminRole, string> = {

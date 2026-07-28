@@ -1,5 +1,6 @@
 import { requireAdmin } from '@/lib/dal';
 import { createClient } from '@/lib/supabase/server';
+import { SPEAKER_COLUMNS } from '@/lib/constants';
 import { SpeakerSummary } from '@/app/admin/_components/SpeakerSummary';
 import { NominationActions } from '@/app/admin/_components/NominationActions';
 
@@ -9,7 +10,7 @@ export default async function NominationsPage() {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from('speakers')
-    .select('*')
+    .select(SPEAKER_COLUMNS)
     .eq('status', 'pending')
     .order('created_at', { ascending: true });
 

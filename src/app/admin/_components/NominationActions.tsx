@@ -1,6 +1,6 @@
 'use client';
 
-import { setSpeakerStatus } from '@/app/admin/actions';
+import { approveSpeaker, setSpeakerStatus } from '@/app/admin/actions';
 import { useActionRunner } from '@/app/admin/_components/useActionRunner';
 
 export function NominationActions({ speakerId }: { speakerId: string }) {
@@ -12,7 +12,7 @@ export function NominationActions({ speakerId }: { speakerId: string }) {
         <button
           type="button"
           disabled={pending}
-          onClick={() => run(() => setSpeakerStatus(speakerId, 'approved'))}
+          onClick={() => run(() => approveSpeaker(speakerId))}
           className="flex-1 rounded-md bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-500 disabled:opacity-50 sm:flex-none"
         >
           Approve

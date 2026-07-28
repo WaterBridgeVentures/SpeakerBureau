@@ -8,6 +8,7 @@ import { DOMAIN_SPECIALITIES, INDUSTRY_SPECIALITIES } from '@/lib/constants';
 
 export type Prefill = {
   name: string;
+  email: string;
   photo_url: string;
   headline: string;
 };
@@ -87,6 +88,25 @@ export function NominateForm({
             className={inputCls}
             placeholder="Jane Doe"
           />
+        </div>
+
+        <div>
+          <label htmlFor="email" className={labelCls}>
+            Email <span className="text-red-500">*</span>
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            defaultValue={prefill?.email ?? ''}
+            required
+            className={inputCls}
+            placeholder="you@example.com"
+          />
+          <p className="mt-1 text-xs text-gray-400">
+            Kept private — used only to reach you about your nomination and any
+            introduction requests. Never shown publicly.
+          </p>
         </div>
 
         <div>

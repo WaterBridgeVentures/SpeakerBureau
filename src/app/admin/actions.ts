@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { sendNominationApproved, sendWarmIntro } from '@/lib/email';
 import { requireAdmin, requireSuperAdmin } from '@/lib/dal';
 import { ADMIN_ROLES, DOMAIN_SPECIALITIES, INDUSTRY_SPECIALITIES } from '@/lib/constants';
 import type {
@@ -15,7 +16,7 @@ import type {
   SpeakerStatus,
 } from '@/lib/database.types';
 
-export type ActionResult = { ok?: true; error?: string };
+export type ActionResult = { ok?: true; error?: string; warning?: string };
 
 // ---------------------------------------------------------------------------
 // Auth
@@ -87,6 +88,40 @@ export async function setSpeakerStatus(
   return { ok: true };
 }
 
+// Approve a pending nomination AND email the nominee a confirmation. The
+// approval is the primary action; a failed/skipped email is non-fatal.
+export async function approveSpeaker(id: string): Promise<ActionResult> {
+  await requireAdmin();
+
+  // Service role: only it can read the private `email` column, and it lets us
+  // approve + read the row back in one call. The status guard keeps this
+  // idempotent (won't re-approve/re-email an already-approved speaker).
+  const svc = createAdminClient();
+  const { data: updated, error } = await svc
+    .from('speakers')
+    .update({ status: 'approved' })
+    .eq('id', id)
+    .eq('status', 'pending')
+    .select('name, email')
+    .maybeSingle();
+  if (error) return { error: error.message };
+  if (!updated) return { error: 'Nomination not found or already handled.' };
+
+  revalidatePath('/admin/nominations');
+  revalidatePath('/admin/speakers');
+  revalidatePath('/speakers');
+
+  const res = await sendNominationApproved({
+    name: updated.name,
+    email: updated.email ?? null,
+  });
+  if (!res.ok) {
+    console.error('Nomination approved but confirmation email failed:', res.error);
+    return { ok: true, warning: `Approved, but the email didn’t send: ${res.error}` };
+  }
+  return { ok: true };
+}
+
 // Full edit of a speaker's fields (super_admin only).
 export async function updateSpeaker(
   id: string,
@@ -140,6 +175,52 @@ export async function setIntroRequestStatus(
     p_status: status,
   });
   if (error) return { error: error.message };
+
+  revalidatePath('/admin/intro-requests');
+  return { ok: true };
+}
+
+// Approve an intro request: send the warm-introduction email to both parties,
+// then (only if the email sent) move the request to `introduced`.
+export async function approveIntroRequest(id: string): Promise<ActionResult> {
+  await requireAdmin();
+
+  const svc = createAdminClient();
+  const { data: req, error: reqErr } = await svc
+    .from('intro_requests')
+    .select('*')
+    .eq('id', id)
+    .maybeSingle();
+  if (reqErr) return { error: reqErr.message };
+  if (!req || req.status !== 'pending') {
+    return { error: 'Request not found or already handled.' };
+  }
+
+  const { data: speaker } = await svc
+    .from('speakers')
+    .select('name, designation, email')
+    .eq('id', req.speaker_id)
+    .maybeSingle();
+  if (!speaker) return { error: 'Speaker not found.' };
+
+  const res = await sendWarmIntro({
+    requesterName: req.requester_name,
+    requesterOrg: req.requester_org,
+    requesterEmail: req.requester_email,
+    reason: req.reason ?? '',
+    speakerName: speaker.name,
+    speakerDesignation: speaker.designation,
+    speakerEmail: speaker.email ?? null,
+  });
+  if (!res.ok) {
+    return { error: `Couldn’t send the introduction email: ${res.error}` };
+  }
+
+  const { error: updErr } = await svc
+    .from('intro_requests')
+    .update({ status: 'introduced' })
+    .eq('id', id);
+  if (updErr) return { error: updErr.message };
 
   revalidatePath('/admin/intro-requests');
   return { ok: true };

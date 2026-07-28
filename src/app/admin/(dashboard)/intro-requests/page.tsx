@@ -24,7 +24,7 @@ export default async function IntroRequestsPage() {
   if (speakerIds.length > 0) {
     const { data: speakers } = await supabase
       .from('speakers')
-      .select('*')
+      .select('id, name, designation')
       .in('id', speakerIds);
     for (const s of speakers ?? []) {
       speakerById.set(s.id, { name: s.name, designation: s.designation });

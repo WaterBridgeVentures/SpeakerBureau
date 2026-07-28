@@ -1,5 +1,6 @@
 import { requireSuperAdmin } from '@/lib/dal';
 import { createClient } from '@/lib/supabase/server';
+import { SPEAKER_COLUMNS } from '@/lib/constants';
 import { SpeakerEditor } from '@/app/admin/_components/SpeakerEditor';
 
 export default async function AllSpeakersPage() {
@@ -8,7 +9,7 @@ export default async function AllSpeakersPage() {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from('speakers')
-    .select('*')
+    .select(SPEAKER_COLUMNS)
     .order('created_at', { ascending: false });
 
   if (error) {

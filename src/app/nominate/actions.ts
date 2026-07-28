@@ -14,6 +14,7 @@ export async function submitNomination(
   formData: FormData
 ): Promise<NominateState> {
   const name = String(formData.get('name') ?? '').trim();
+  const email = String(formData.get('email') ?? '').trim();
   const designation = String(formData.get('designation') ?? '').trim();
   const linkedin_url = String(formData.get('linkedin_url') ?? '').trim();
   const photo_url = String(formData.get('photo_url') ?? '').trim() || null;
@@ -21,8 +22,11 @@ export async function submitNomination(
   const domain = String(formData.get('domain_speciality') ?? '');
   const bio = String(formData.get('bio') ?? '').trim() || null;
 
-  if (!name || !designation || !linkedin_url) {
-    return { error: 'Name, designation, and LinkedIn URL are required.' };
+  if (!name || !email || !designation || !linkedin_url) {
+    return { error: 'Name, email, designation, and LinkedIn URL are required.' };
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return { error: 'Enter a valid email address.' };
   }
   if (!/^https?:\/\//i.test(linkedin_url)) {
     return { error: 'Enter a full LinkedIn URL starting with http:// or https://' };
@@ -36,6 +40,7 @@ export async function submitNomination(
   // back a pending row is not permitted for anon/authenticated.
   const { error } = await supabase.from('speakers').insert({
     name,
+    email,
     designation,
     linkedin_url,
     photo_url,

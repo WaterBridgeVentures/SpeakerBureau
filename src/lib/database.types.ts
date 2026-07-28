@@ -64,6 +64,9 @@ export interface Database {
           bio: string | null;
           status: SpeakerStatus;
           created_at: string;
+          // Private: not readable by anon/authenticated (column-level grants).
+          // Optional here so public column-selects still satisfy `Speaker`.
+          email?: string | null;
         };
         Insert: {
           id?: string;
@@ -76,6 +79,7 @@ export interface Database {
           bio?: string | null;
           status?: SpeakerStatus;
           created_at?: string;
+          email?: string | null;
         };
         Update: {
           id?: string;
@@ -88,6 +92,7 @@ export interface Database {
           bio?: string | null;
           status?: SpeakerStatus;
           created_at?: string;
+          email?: string | null;
         };
         Relationships: [];
       };

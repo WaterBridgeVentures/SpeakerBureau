@@ -33,6 +33,7 @@ export default async function NominatePage({
   const prefill: Prefill | null = fromLinkedIn
     ? {
         name: (meta.name as string) ?? (meta.full_name as string) ?? '',
+        email: user?.email ?? (meta.email as string) ?? '',
         photo_url: (meta.picture as string) ?? (meta.avatar_url as string) ?? '',
         headline: (meta.headline as string) ?? '',
       }

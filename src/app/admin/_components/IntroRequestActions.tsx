@@ -1,6 +1,6 @@
 'use client';
 
-import { setIntroRequestStatus } from '@/app/admin/actions';
+import { approveIntroRequest, setIntroRequestStatus } from '@/app/admin/actions';
 import { useActionRunner } from '@/app/admin/_components/useActionRunner';
 
 export function IntroRequestActions({ requestId }: { requestId: string }) {
@@ -12,7 +12,7 @@ export function IntroRequestActions({ requestId }: { requestId: string }) {
         <button
           type="button"
           disabled={pending}
-          onClick={() => run(() => setIntroRequestStatus(requestId, 'approved'))}
+          onClick={() => run(() => approveIntroRequest(requestId))}
           className="flex-1 rounded-md bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-500 disabled:opacity-50 sm:flex-none"
         >
           Approve

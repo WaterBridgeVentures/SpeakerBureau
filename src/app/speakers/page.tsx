@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 import { createClient } from '@/lib/supabase/server';
+import { SPEAKER_COLUMNS } from '@/lib/constants';
 import { Directory } from '@/app/speakers/_components/Directory';
 
 export const metadata: Metadata = {
@@ -16,7 +17,7 @@ export default async function SpeakersPage() {
   const supabase = await createClient();
   const { data: speakers, error } = await supabase
     .from('speakers')
-    .select('*')
+    .select(SPEAKER_COLUMNS)
     .eq('status', 'approved')
     .order('name', { ascending: true });
 
