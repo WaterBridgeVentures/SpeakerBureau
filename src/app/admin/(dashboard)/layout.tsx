@@ -4,6 +4,7 @@ import { requireAdmin } from '@/lib/dal';
 import { ADMIN_ROLE_LABELS } from '@/lib/constants';
 import { NavTabs } from '@/app/admin/_components/NavTabs';
 import { SignOutButton } from '@/app/admin/_components/SignOutButton';
+import { ToastProvider } from '@/app/admin/_components/Toast';
 
 export const metadata: Metadata = {
   title: 'Admin — Women’s Speaker Bureau',
@@ -41,7 +42,9 @@ export default async function DashboardLayout({
         </div>
       </header>
 
-      <main className="mx-auto max-w-5xl px-4 py-6">{children}</main>
+      <main className="mx-auto max-w-5xl px-4 py-6">
+        <ToastProvider>{children}</ToastProvider>
+      </main>
     </div>
   );
 }
