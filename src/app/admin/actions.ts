@@ -16,7 +16,12 @@ import type {
   SpeakerStatus,
 } from '@/lib/database.types';
 
-export type ActionResult = { ok?: true; error?: string; warning?: string };
+export type ActionResult = {
+  ok?: true;
+  error?: string;
+  warning?: string;
+  success?: string;
+};
 
 // ---------------------------------------------------------------------------
 // Auth
@@ -223,7 +228,10 @@ export async function approveIntroRequest(id: string): Promise<ActionResult> {
   if (updErr) return { error: updErr.message };
 
   revalidatePath('/admin/intro-requests');
-  return { ok: true };
+  return {
+    ok: true,
+    success: `Introduction sent to ${req.requester_name} and ${speaker.name}.`,
+  };
 }
 
 // ---------------------------------------------------------------------------

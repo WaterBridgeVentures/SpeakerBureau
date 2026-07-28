@@ -26,6 +26,7 @@ export function useActionRunner() {
         setError(res.error);
       } else {
         if (res?.warning) notify(res.warning, 'warning');
+        if (res?.success) notify(res.success, 'success');
         onSuccess?.();
         router.refresh();
       }
