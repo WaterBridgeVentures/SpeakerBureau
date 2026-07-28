@@ -79,6 +79,21 @@ export function SpeakerEditor({ speaker }: { speaker: Speaker }) {
             <span className="mb-1 block text-gray-600">LinkedIn URL</span>
             <input name="linkedin_url" defaultValue={speaker.linkedin_url} className={inputCls} required />
           </label>
+          <label className="text-sm sm:col-span-2">
+            <span className="mb-1 block text-gray-600">
+              Email{' '}
+              <span className="text-gray-400">
+                (private — used for intro/approval emails, never shown publicly)
+              </span>
+            </span>
+            <input
+              name="email"
+              type="email"
+              defaultValue={speaker.email ?? ''}
+              placeholder="speaker@example.com"
+              className={inputCls}
+            />
+          </label>
           <label className="text-sm">
             <span className="mb-1 block text-gray-600">Industry speciality</span>
             <select

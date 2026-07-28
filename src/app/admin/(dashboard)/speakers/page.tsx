@@ -1,15 +1,16 @@
 import { requireSuperAdmin } from '@/lib/dal';
-import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 import { SPEAKER_COLUMNS } from '@/lib/constants';
 import { SpeakerEditor } from '@/app/admin/_components/SpeakerEditor';
 
 export default async function AllSpeakersPage() {
   await requireSuperAdmin();
 
-  const supabase = await createClient();
-  const { data, error } = await supabase
+  // Service role so super-admins can see + edit the private email column.
+  const svc = createAdminClient();
+  const { data, error } = await svc
     .from('speakers')
-    .select(SPEAKER_COLUMNS)
+    .select(`${SPEAKER_COLUMNS}, email`)
     .order('created_at', { ascending: false });
 
   if (error) {

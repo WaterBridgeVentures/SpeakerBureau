@@ -136,12 +136,14 @@ export async function updateSpeaker(
 
   const industry = String(formData.get('industry_speciality') ?? '');
   const domain = String(formData.get('domain_speciality') ?? '');
+  const email = String(formData.get('email') ?? '').trim();
 
   const patch = {
     name: String(formData.get('name') ?? '').trim(),
     designation: String(formData.get('designation') ?? '').trim(),
     linkedin_url: String(formData.get('linkedin_url') ?? '').trim(),
     bio: String(formData.get('bio') ?? '').trim() || null,
+    email: email || null,
     industry_speciality: (INDUSTRY_SPECIALITIES as string[]).includes(industry)
       ? (industry as IndustrySpeciality)
       : null,
@@ -153,9 +155,14 @@ export async function updateSpeaker(
   if (!patch.name || !patch.designation || !patch.linkedin_url) {
     return { error: 'Name, designation and LinkedIn URL are required.' };
   }
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return { error: 'Enter a valid email, or leave it blank.' };
+  }
 
-  const supabase = await createClient();
-  const { error } = await supabase.from('speakers').update(patch).eq('id', id);
+  // Service role (already super_admin-gated above) so the write covers the
+  // private email column without depending on the authenticated role's grants.
+  const svc = createAdminClient();
+  const { error } = await svc.from('speakers').update(patch).eq('id', id);
   if (error) return { error: error.message };
 
   revalidatePath('/admin/speakers');
@@ -208,6 +215,7 @@ export async function approveIntroRequest(id: string): Promise<ActionResult> {
     .maybeSingle();
   if (!speaker) return { error: 'Speaker not found.' };
 
+  const speakerEmailed = Boolean(speaker.email);
   const res = await sendWarmIntro({
     requesterName: req.requester_name,
     requesterOrg: req.requester_org,
@@ -228,9 +236,19 @@ export async function approveIntroRequest(id: string): Promise<ActionResult> {
   if (updErr) return { error: updErr.message };
 
   revalidatePath('/admin/intro-requests');
+
+  // Be honest about who was actually emailed: if the speaker has no address on
+  // file, the intro went to the requester + the bureau admin to forward.
+  if (speakerEmailed) {
+    return {
+      ok: true,
+      success: `Introduction sent to ${req.requester_name} and ${speaker.name}.`,
+    };
+  }
   return {
     ok: true,
-    success: `Introduction sent to ${req.requester_name} and ${speaker.name}.`,
+    success: `Introduction sent to ${req.requester_name}.`,
+    warning: `${speaker.name} has no email on file — you were CC’d to forward it. Add their email under All Speakers so future intros reach them directly.`,
   };
 }
 
