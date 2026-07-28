@@ -37,8 +37,20 @@ export type IndustrySpeciality =
 
 export type AdminRole = 'super_admin' | 'approver';
 
+// Convenience row aliases (defined after the Database interface below).
+export type Speaker = Database['public']['Tables']['speakers']['Row'];
+export type IntroRequest = Database['public']['Tables']['intro_requests']['Row'];
+export type Supporter = Database['public']['Tables']['supporters']['Row'];
+export type AdminUser = Database['public']['Tables']['admin_users']['Row'];
+
 export interface Database {
   public: {
+    Views: {
+      [_ in never]: never;
+    };
+    CompositeTypes: {
+      [_ in never]: never;
+    };
     Tables: {
       speakers: {
         Row: {
@@ -77,6 +89,7 @@ export interface Database {
           status?: SpeakerStatus;
           created_at?: string;
         };
+        Relationships: [];
       };
       intro_requests: {
         Row: {
@@ -109,6 +122,7 @@ export interface Database {
           status?: IntroRequestStatus;
           created_at?: string;
         };
+        Relationships: [];
       };
       supporters: {
         Row: {
@@ -132,6 +146,7 @@ export interface Database {
           link_url?: string | null;
           display_order?: number;
         };
+        Relationships: [];
       };
       admin_users: {
         Row: {
@@ -149,6 +164,7 @@ export interface Database {
           role?: AdminRole;
           created_at?: string;
         };
+        Relationships: [];
       };
     };
     Enums: {
@@ -173,11 +189,11 @@ export interface Database {
       };
       set_speaker_status: {
         Args: { p_speaker_id: string; p_status: SpeakerStatus };
-        Returns: Database['public']['Tables']['speakers']['Row'];
+        Returns: unknown;
       };
       set_intro_request_status: {
         Args: { p_id: string; p_status: IntroRequestStatus };
-        Returns: Database['public']['Tables']['intro_requests']['Row'];
+        Returns: unknown;
       };
     };
   };
