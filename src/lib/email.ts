@@ -34,6 +34,7 @@ function textToHtml(text: string): string {
 export function buildWarmIntroEmail(p: {
   requesterName: string;
   requesterOrg: string | null;
+  requesterEmail: string;
   reason: string;
   speakerName: string;
   speakerDesignation: string;
@@ -43,8 +44,10 @@ export function buildWarmIntroEmail(p: {
   const text =
     `Hi ${p.requesterName} and ${p.speakerName},\n\n` +
     `Happy to make this introduction. ${p.requesterName} (${org}) would ` +
-    `like to connect with ${p.speakerName} (${p.speakerDesignation}) —\n\n` +
+    `like to connect with ${p.speakerName} (${p.speakerDesignation}):\n\n` +
     `${p.reason}\n\n` +
+    `${p.speakerName}, you can reach ${p.requesterName} directly at ` +
+    `${p.requesterEmail} — replying to this email will go straight to them.\n\n` +
     `I'll let you two take it from here!\n\n` +
     `Best,\n${ADMIN_NAME}, Women's Speaker Bureau`;
   return { subject, text, html: textToHtml(text) };
@@ -91,7 +94,8 @@ export async function sendWarmIntro(p: {
   const { error } = await resend.emails.send({
     from: FROM,
     to,
-    replyTo: ADMIN_EMAIL,
+    // Reply-to the requester so the speaker's reply reaches them directly.
+    replyTo: p.requesterEmail,
     subject,
     text,
     html,
