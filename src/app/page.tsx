@@ -10,21 +10,21 @@ export default function Home() {
         Women’s Speaker Bureau
       </h1>
       <p className="max-w-md text-sm text-gray-500">
-        A free, India-focused directory of women speakers. The public directory
-        is coming soon — in the meantime, add yourself.
+        A free, India-focused directory of women speakers. Browse the directory
+        or add yourself.
       </p>
       <div className="flex flex-wrap items-center justify-center gap-3">
         <Link
-          href="/nominate"
+          href="/speakers"
           className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500"
         >
-          Nominate yourself
+          Browse directory
         </Link>
         <Link
-          href="/admin"
+          href="/nominate"
           className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
-          Admin dashboard
+          Nominate yourself
         </Link>
       </div>
     </main>
