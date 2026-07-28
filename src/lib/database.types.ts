@@ -35,6 +35,8 @@ export type IndustrySpeciality =
   | 'Non-profit/Social Impact'
   | 'Other';
 
+export type AdminRole = 'super_admin' | 'approver';
+
 export interface Database {
   public: {
     Tables: {
@@ -131,12 +133,52 @@ export interface Database {
           display_order?: number;
         };
       };
+      admin_users: {
+        Row: {
+          user_id: string;
+          role: AdminRole;
+          created_at: string;
+        };
+        Insert: {
+          user_id: string;
+          role: AdminRole;
+          created_at?: string;
+        };
+        Update: {
+          user_id?: string;
+          role?: AdminRole;
+          created_at?: string;
+        };
+      };
     };
     Enums: {
       speaker_status: SpeakerStatus;
       intro_request_status: IntroRequestStatus;
       domain_speciality: DomainSpeciality;
       industry_speciality: IndustrySpeciality;
+      admin_role: AdminRole;
+    };
+    Functions: {
+      is_admin: {
+        Args: Record<string, never>;
+        Returns: boolean;
+      };
+      is_super_admin: {
+        Args: Record<string, never>;
+        Returns: boolean;
+      };
+      current_admin_role: {
+        Args: Record<string, never>;
+        Returns: AdminRole | null;
+      };
+      set_speaker_status: {
+        Args: { p_speaker_id: string; p_status: SpeakerStatus };
+        Returns: Database['public']['Tables']['speakers']['Row'];
+      };
+      set_intro_request_status: {
+        Args: { p_id: string; p_status: IntroRequestStatus };
+        Returns: Database['public']['Tables']['intro_requests']['Row'];
+      };
     };
   };
 }
