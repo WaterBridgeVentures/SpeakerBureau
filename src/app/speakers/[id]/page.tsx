@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { Avatar } from '@/app/speakers/_components/Avatar';
 import { SpecialityTags } from '@/app/speakers/_components/SpecialityTags';
+import { IntroRequestForm } from '@/app/speakers/_components/IntroRequestForm';
 
 const UUID_RE =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -89,20 +90,10 @@ export default async function SpeakerProfilePage({ params }: PageParams) {
               View LinkedIn profile ↗
             </a>
 
-            {/* Intro-request flow ships in the next phase. */}
-            <div>
-              <button
-                type="button"
-                disabled
-                aria-disabled="true"
-                className="w-full cursor-not-allowed rounded-md bg-indigo-600/50 px-4 py-2.5 text-sm font-medium text-white"
-              >
-                Request an Introduction
-              </button>
-              <p className="mt-1 text-center text-xs text-gray-400">
-                Introduction requests open soon.
-              </p>
-            </div>
+            <IntroRequestForm
+              speakerId={speaker.id}
+              speakerName={speaker.name}
+            />
           </div>
         </article>
       </div>
