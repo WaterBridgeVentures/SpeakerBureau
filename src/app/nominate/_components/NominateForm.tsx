@@ -136,6 +136,12 @@ export function NominateForm({
             className={inputCls}
             placeholder="https://www.linkedin.com/in/your-handle"
           />
+          {prefill && (
+            <p className="mt-1 text-xs text-gray-400">
+              LinkedIn’s sign-in doesn’t share your profile URL, so please paste
+              it here (e.g. linkedin.com/in/your-name).
+            </p>
+          )}
         </div>
 
         <div>
