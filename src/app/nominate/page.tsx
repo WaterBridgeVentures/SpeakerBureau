@@ -19,25 +19,30 @@ export default async function NominatePage({
 }) {
   const { linkedin } = await searchParams;
 
-  // If the visitor signed in with LinkedIn, pull name/photo/headline from the
-  // session metadata to prefill. (LinkedIn OIDC provides name + picture; a
-  // headline isn't part of the standard claims, so designation is usually
-  // still entered manually.)
+  // Prefill from the signed-in identity's metadata. LinkedIn OIDC populates
+  // name / picture / email — including when the LinkedIn identity is linked to
+  // an existing account, in which case app_metadata.provider can still read
+  // 'email'. So we don't gate on the provider; we prefill whenever the
+  // metadata is present. (Headline isn't a standard OIDC claim, so designation
+  // is usually still entered manually.)
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const fromLinkedIn = user?.app_metadata?.provider === 'linkedin_oidc';
-  const meta = user?.user_metadata ?? {};
-  const prefill: Prefill | null = fromLinkedIn
-    ? {
-        name: (meta.name as string) ?? (meta.full_name as string) ?? '',
-        email: user?.email ?? (meta.email as string) ?? '',
-        photo_url: (meta.picture as string) ?? (meta.avatar_url as string) ?? '',
-        headline: (meta.headline as string) ?? '',
-      }
-    : null;
+  const meta = (user?.user_metadata ?? {}) as Record<string, unknown>;
+  const name = (meta.name as string) ?? (meta.full_name as string) ?? '';
+  const photoUrl =
+    (meta.picture as string) ?? (meta.avatar_url as string) ?? '';
+  const prefill: Prefill | null =
+    user && (name || photoUrl)
+      ? {
+          name,
+          email: user.email ?? (meta.email as string) ?? '',
+          photo_url: photoUrl,
+          headline: (meta.headline as string) ?? '',
+        }
+      : null;
 
   return (
     <main className="min-h-screen bg-gray-50 px-4 py-10">
