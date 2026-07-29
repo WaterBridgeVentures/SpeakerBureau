@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
+
 export function MultiSelect({
   label,
   options,
@@ -11,6 +13,33 @@ export function MultiSelect({
   selected: string[];
   onChange: (next: string[]) => void;
 }) {
+  const ref = useRef<HTMLDetailsElement>(null);
+  const [open, setOpen] = useState(false);
+
+  // Close on click/tap outside or Escape. (Native <details> only closes via its
+  // own summary; selections live in the parent, so they persist across close.)
+  useEffect(() => {
+    if (!open) return;
+    const close = () => {
+      if (ref.current) ref.current.open = false;
+    };
+    const onPointerDown = (e: PointerEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) close();
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        close();
+        ref.current?.querySelector('summary')?.focus();
+      }
+    };
+    document.addEventListener('pointerdown', onPointerDown);
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown);
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [open]);
+
   const toggle = (v: string) =>
     onChange(
       selected.includes(v)
@@ -19,7 +48,11 @@ export function MultiSelect({
     );
 
   return (
-    <details className="relative">
+    <details
+      ref={ref}
+      className="relative"
+      onToggle={(e) => setOpen(e.currentTarget.open)}
+    >
       <summary className="flex cursor-pointer list-none items-center justify-between rounded-md border border-wbv-slate/40 bg-white px-3 py-2 text-sm text-wbv-secondary [&::-webkit-details-marker]:hidden">
         <span className="truncate">
           {label}
