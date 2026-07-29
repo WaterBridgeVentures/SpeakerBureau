@@ -7,13 +7,15 @@ export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-wbv-ivory">
       <Header />
-      <main className="flex flex-1 flex-col items-center justify-center gap-4 px-6 text-center">
-        <h1 className="text-2xl font-semibold text-wbv-secondary">
+      <main className="flex flex-1 flex-col items-center justify-center gap-4 px-6 py-12 text-center">
+        <h1 className="text-3xl font-semibold text-wbv-secondary sm:text-4xl">
           Women’s Speaker Bureau
         </h1>
-        <p className="max-w-md text-sm text-gray-500">
-          A free, India-focused directory of women speakers. Browse the
-          directory or add yourself.
+        <p className="max-w-xl text-pretty text-sm leading-relaxed text-gray-600 sm:text-base">
+          Featuring expert speakers in the Indian Venture Capital and Private
+          Equity Eco-System. In a quest to end MAN-els, spotlight women domain
+          knowledge experts and enable warm introductions. Independent and
+          self-hosted with thanks to our supporters.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-3">
           <Link
