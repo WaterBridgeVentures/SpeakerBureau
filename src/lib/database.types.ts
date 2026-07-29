@@ -37,6 +37,8 @@ export type IndustrySpeciality =
 
 export type AdminRole = 'super_admin' | 'approver';
 
+export type SpeakingFormat = 'in_person' | 'virtual' | 'both';
+
 // Convenience row aliases (defined after the Database interface below).
 export type Speaker = Database['public']['Tables']['speakers']['Row'];
 export type IntroRequest = Database['public']['Tables']['intro_requests']['Row'];
@@ -64,6 +66,10 @@ export interface Database {
           bio: string | null;
           status: SpeakerStatus;
           created_at: string;
+          verified: boolean;
+          location: string | null;
+          in_person_or_virtual: SpeakingFormat | null;
+          featured: boolean;
           // Private: not readable by anon/authenticated (column-level grants).
           // Optional here so public column-selects still satisfy `Speaker`.
           email?: string | null;
@@ -79,6 +85,10 @@ export interface Database {
           bio?: string | null;
           status?: SpeakerStatus;
           created_at?: string;
+          verified?: boolean;
+          location?: string | null;
+          in_person_or_virtual?: SpeakingFormat | null;
+          featured?: boolean;
           email?: string | null;
         };
         Update: {
@@ -92,6 +102,10 @@ export interface Database {
           bio?: string | null;
           status?: SpeakerStatus;
           created_at?: string;
+          verified?: boolean;
+          location?: string | null;
+          in_person_or_virtual?: SpeakingFormat | null;
+          featured?: boolean;
           email?: string | null;
         };
         Relationships: [];

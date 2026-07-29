@@ -7,13 +7,19 @@ import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { sendNominationApproved, sendWarmIntro } from '@/lib/email';
 import { requireAdmin, requireSuperAdmin } from '@/lib/dal';
-import { ADMIN_ROLES, DOMAIN_SPECIALITIES, INDUSTRY_SPECIALITIES } from '@/lib/constants';
+import {
+  ADMIN_ROLES,
+  DOMAIN_SPECIALITIES,
+  INDUSTRY_SPECIALITIES,
+  SPEAKING_FORMATS,
+} from '@/lib/constants';
 import type {
   AdminRole,
   DomainSpeciality,
   IndustrySpeciality,
   IntroRequestStatus,
   SpeakerStatus,
+  SpeakingFormat,
 } from '@/lib/database.types';
 
 export type ActionResult = {
@@ -136,6 +142,7 @@ export async function updateSpeaker(
 
   const industry = String(formData.get('industry_speciality') ?? '');
   const domain = String(formData.get('domain_speciality') ?? '');
+  const format = String(formData.get('in_person_or_virtual') ?? '');
   const email = String(formData.get('email') ?? '').trim();
 
   const patch = {
@@ -144,11 +151,15 @@ export async function updateSpeaker(
     linkedin_url: String(formData.get('linkedin_url') ?? '').trim(),
     bio: String(formData.get('bio') ?? '').trim() || null,
     email: email || null,
+    location: String(formData.get('location') ?? '').trim() || null,
     industry_speciality: (INDUSTRY_SPECIALITIES as string[]).includes(industry)
       ? (industry as IndustrySpeciality)
       : null,
     domain_speciality: (DOMAIN_SPECIALITIES as string[]).includes(domain)
       ? (domain as DomainSpeciality)
+      : null,
+    in_person_or_virtual: (SPEAKING_FORMATS as string[]).includes(format)
+      ? (format as SpeakingFormat)
       : null,
   };
 
@@ -167,6 +178,26 @@ export async function updateSpeaker(
 
   revalidatePath('/admin/speakers');
   revalidatePath('/admin/nominations');
+  revalidatePath('/speakers');
+  return { ok: true };
+}
+
+// Toggle the admin-controlled featured flag (super_admin only).
+export async function toggleFeatured(
+  id: string,
+  featured: boolean
+): Promise<ActionResult> {
+  await requireSuperAdmin();
+
+  const svc = createAdminClient();
+  const { error } = await svc
+    .from('speakers')
+    .update({ featured })
+    .eq('id', id);
+  if (error) return { error: error.message };
+
+  revalidatePath('/admin/speakers');
+  revalidatePath('/speakers');
   return { ok: true };
 }
 

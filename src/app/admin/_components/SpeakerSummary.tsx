@@ -1,3 +1,4 @@
+import { VerifiedBadge } from '@/app/speakers/_components/Badges';
 import type { Speaker } from '@/lib/database.types';
 
 function Avatar({ speaker }: { speaker: Speaker }) {
@@ -28,7 +29,10 @@ export function SpeakerSummary({ speaker }: { speaker: Speaker }) {
     <div className="flex gap-3">
       <Avatar speaker={speaker} />
       <div className="min-w-0">
-        <p className="font-medium text-wbv-secondary">{speaker.name}</p>
+        <div className="flex flex-wrap items-center gap-2">
+          <p className="font-medium text-wbv-secondary">{speaker.name}</p>
+          {speaker.verified && <VerifiedBadge />}
+        </div>
         <p className="text-sm text-gray-600">{speaker.designation}</p>
         <div className="mt-1.5 flex flex-wrap gap-1.5">
           {speaker.industry_speciality && (

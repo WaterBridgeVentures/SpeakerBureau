@@ -4,7 +4,12 @@ import { useActionState } from 'react';
 
 import { submitNomination, type NominateState } from '@/app/nominate/actions';
 import { LinkedInButton } from '@/app/nominate/_components/LinkedInButton';
-import { DOMAIN_SPECIALITIES, INDUSTRY_SPECIALITIES } from '@/lib/constants';
+import {
+  DOMAIN_SPECIALITIES,
+  INDUSTRY_SPECIALITIES,
+  SPEAKING_FORMATS,
+  SPEAKING_FORMAT_LABELS,
+} from '@/lib/constants';
 
 export type Prefill = {
   name: string;
@@ -201,6 +206,39 @@ export function NominateForm({
           </div>
         </div>
 
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label htmlFor="location" className={labelCls}>
+              Location (city) <span className="text-gray-400">(optional)</span>
+            </label>
+            <input
+              id="location"
+              name="location"
+              className={inputCls}
+              placeholder="e.g. Bengaluru"
+            />
+          </div>
+          <div>
+            <label htmlFor="in_person_or_virtual" className={labelCls}>
+              Speaking format{' '}
+              <span className="text-gray-400">(optional)</span>
+            </label>
+            <select
+              id="in_person_or_virtual"
+              name="in_person_or_virtual"
+              defaultValue=""
+              className={inputCls}
+            >
+              <option value="">— select —</option>
+              {SPEAKING_FORMATS.map((f) => (
+                <option key={f} value={f}>
+                  {SPEAKING_FORMAT_LABELS[f]}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
         <div>
           <label htmlFor="bio" className={labelCls}>
             Short bio <span className="text-gray-400">(optional)</span>
@@ -213,6 +251,20 @@ export function NominateForm({
             placeholder="A sentence or two about what you speak on."
           />
         </div>
+
+        <label className="flex items-start gap-2 text-xs text-gray-600">
+          <input
+            type="checkbox"
+            name="consent"
+            required
+            className="mt-0.5 accent-wbv-primary"
+          />
+          <span>
+            I consent to the Women’s Speaker Bureau storing and using the
+            information I’ve submitted to list me in the public directory and to
+            facilitate introduction requests.
+          </span>
+        </label>
 
         {state?.error && (
           <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">

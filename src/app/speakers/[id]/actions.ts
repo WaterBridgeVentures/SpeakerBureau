@@ -18,6 +18,7 @@ export async function submitIntroRequest(
   const requester_org =
     String(formData.get('requester_org') ?? '').trim() || null;
   const reason = String(formData.get('reason') ?? '').trim();
+  const consent = formData.get('consent') != null;
 
   if (!UUID_RE.test(speaker_id)) {
     return { error: 'Something went wrong — please reopen the form.' };
@@ -27,6 +28,9 @@ export async function submitIntroRequest(
   }
   if (!EMAIL_RE.test(requester_email)) {
     return { error: 'Enter a valid email address.' };
+  }
+  if (!consent) {
+    return { error: 'Please confirm the consent checkbox to submit.' };
   }
 
   const supabase = await createClient();

@@ -2,11 +2,21 @@
 
 import { useState, type FormEvent } from 'react';
 
-import { setSpeakerStatus, updateSpeaker } from '@/app/admin/actions';
+import {
+  setSpeakerStatus,
+  toggleFeatured,
+  updateSpeaker,
+} from '@/app/admin/actions';
 import { useActionRunner } from '@/app/admin/_components/useActionRunner';
 import { SpeakerSummary } from '@/app/admin/_components/SpeakerSummary';
 import { StatusBadge } from '@/app/admin/_components/StatusBadge';
-import { DOMAIN_SPECIALITIES, INDUSTRY_SPECIALITIES } from '@/lib/constants';
+import { VerifiedBadge } from '@/app/speakers/_components/Badges';
+import {
+  DOMAIN_SPECIALITIES,
+  INDUSTRY_SPECIALITIES,
+  SPEAKING_FORMATS,
+  SPEAKING_FORMAT_LABELS,
+} from '@/lib/constants';
 import type { Speaker, SpeakerStatus } from '@/lib/database.types';
 
 const SPEAKER_STATUSES: SpeakerStatus[] = [
@@ -34,7 +44,8 @@ export function SpeakerEditor({ speaker }: { speaker: Speaker }) {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <SpeakerSummary speaker={speaker} />
         <div className="flex flex-col items-stretch gap-2 sm:items-end">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2 sm:justify-end">
+            {speaker.verified && <VerifiedBadge />}
             <StatusBadge status={speaker.status} />
             <select
               aria-label="Change status"
@@ -54,13 +65,30 @@ export function SpeakerEditor({ speaker }: { speaker: Speaker }) {
               ))}
             </select>
           </div>
-          <button
-            type="button"
-            onClick={() => setEditing((v) => !v)}
-            className="rounded-md border border-wbv-slate/40 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-wbv-ivory"
-          >
-            {editing ? 'Close' : 'Edit'}
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              disabled={pending}
+              aria-pressed={speaker.featured}
+              onClick={() =>
+                run(() => toggleFeatured(speaker.id, !speaker.featured))
+              }
+              className={
+                speaker.featured
+                  ? 'rounded-md border border-wbv-primary bg-wbv-primary/20 px-3 py-1.5 text-sm font-medium text-wbv-black hover:brightness-95 disabled:opacity-50'
+                  : 'rounded-md border border-wbv-slate/40 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-wbv-ivory disabled:opacity-50'
+              }
+            >
+              {speaker.featured ? '★ Featured' : '☆ Feature'}
+            </button>
+            <button
+              type="button"
+              onClick={() => setEditing((v) => !v)}
+              className="rounded-md border border-wbv-slate/40 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-wbv-ivory"
+            >
+              {editing ? 'Close' : 'Edit'}
+            </button>
+          </div>
           {error && <span className="text-xs text-red-600">{error}</span>}
         </div>
       </div>
@@ -120,6 +148,30 @@ export function SpeakerEditor({ speaker }: { speaker: Speaker }) {
               {DOMAIN_SPECIALITIES.map((v) => (
                 <option key={v} value={v}>
                   {v}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="text-sm">
+            <span className="mb-1 block text-gray-600">Location (city)</span>
+            <input
+              name="location"
+              defaultValue={speaker.location ?? ''}
+              placeholder="e.g. Bengaluru"
+              className={inputCls}
+            />
+          </label>
+          <label className="text-sm">
+            <span className="mb-1 block text-gray-600">Speaking format</span>
+            <select
+              name="in_person_or_virtual"
+              defaultValue={speaker.in_person_or_virtual ?? ''}
+              className={inputCls}
+            >
+              <option value="">— none —</option>
+              {SPEAKING_FORMATS.map((f) => (
+                <option key={f} value={f}>
+                  {SPEAKING_FORMAT_LABELS[f]}
                 </option>
               ))}
             </select>

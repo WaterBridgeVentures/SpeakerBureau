@@ -117,6 +117,20 @@ export function IntroRequestForm({
         />
       </div>
 
+      <label className="flex items-start gap-2 text-xs text-gray-600">
+        <input
+          type="checkbox"
+          name="consent"
+          required
+          className="mt-0.5 accent-wbv-primary"
+        />
+        <span>
+          I consent to the Women’s Speaker Bureau storing and using the
+          information I’ve submitted to review and facilitate this introduction
+          request.
+        </span>
+      </label>
+
       {state?.error && (
         <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
           {state.error}

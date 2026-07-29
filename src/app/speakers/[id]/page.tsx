@@ -4,8 +4,13 @@ import { notFound } from 'next/navigation';
 
 import { createClient } from '@/lib/supabase/server';
 import { SPEAKER_COLUMNS } from '@/lib/constants';
+import { SPEAKING_FORMAT_LABELS } from '@/lib/constants';
 import { Avatar } from '@/app/speakers/_components/Avatar';
 import { SpecialityTags } from '@/app/speakers/_components/SpecialityTags';
+import {
+  FeaturedBadge,
+  VerifiedBadge,
+} from '@/app/speakers/_components/Badges';
 import { Header } from '@/app/_components/Header';
 import { Footer } from '@/app/_components/Footer';
 import { IntroRequestForm } from '@/app/speakers/_components/IntroRequestForm';
@@ -66,10 +71,22 @@ export default async function SpeakerProfilePage({ params }: PageParams) {
               size="lg"
             />
             <div className="min-w-0">
-              <h1 className="text-2xl font-semibold text-wbv-secondary">
-                {speaker.name}
-              </h1>
+              <div className="flex flex-wrap items-center justify-center gap-2 sm:justify-start">
+                <h1 className="text-2xl font-semibold text-wbv-secondary">
+                  {speaker.name}
+                </h1>
+                {speaker.verified && <VerifiedBadge />}
+                {speaker.featured && <FeaturedBadge />}
+              </div>
               <p className="mt-0.5 text-gray-600">{speaker.designation}</p>
+              <div className="mt-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm text-gray-500 sm:justify-start">
+                {speaker.location && <span>📍 {speaker.location}</span>}
+                {speaker.in_person_or_virtual && (
+                  <span>
+                    {SPEAKING_FORMAT_LABELS[speaker.in_person_or_virtual]}
+                  </span>
+                )}
+              </div>
               <div className="mt-3 flex justify-center sm:justify-start">
                 <SpecialityTags
                   industry={speaker.industry_speciality}
