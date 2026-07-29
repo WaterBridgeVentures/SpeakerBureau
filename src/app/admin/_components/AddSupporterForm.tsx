@@ -29,13 +29,10 @@ export function AddSupporterForm() {
       </div>
       <input name="org_name" placeholder="Organisation name" className={inputCls} required />
       <input name="logo_url" placeholder="Logo URL" className={inputCls} required />
-      <input name="link_url" placeholder="Website URL (optional)" className={inputCls} />
       <input
-        name="display_order"
-        type="number"
-        placeholder="Display order"
-        defaultValue={0}
-        className={inputCls}
+        name="link_url"
+        placeholder="Website URL (optional)"
+        className={`${inputCls} sm:col-span-2`}
       />
       {state.error && (
         <p className="text-sm text-red-600 sm:col-span-2">{state.error}</p>

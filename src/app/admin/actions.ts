@@ -265,7 +265,6 @@ export async function createSupporter(
     org_name: String(formData.get('org_name') ?? '').trim(),
     logo_url: String(formData.get('logo_url') ?? '').trim(),
     link_url: String(formData.get('link_url') ?? '').trim() || null,
-    display_order: Number(formData.get('display_order') ?? 0) || 0,
   };
   if (!row.org_name || !row.logo_url) {
     return { error: 'Organisation name and logo URL are required.' };
@@ -289,7 +288,6 @@ export async function updateSupporter(
     org_name: String(formData.get('org_name') ?? '').trim(),
     logo_url: String(formData.get('logo_url') ?? '').trim(),
     link_url: String(formData.get('link_url') ?? '').trim() || null,
-    display_order: Number(formData.get('display_order') ?? 0) || 0,
   };
   if (!patch.org_name || !patch.logo_url) {
     return { error: 'Organisation name and logo URL are required.' };

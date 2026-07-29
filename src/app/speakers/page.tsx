@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { SPEAKER_COLUMNS } from '@/lib/constants';
 import { Directory } from '@/app/speakers/_components/Directory';
+import { Footer } from '@/app/_components/Footer';
 
 export const metadata: Metadata = {
   title: 'Speaker Directory — Women’s Speaker Bureau',
@@ -22,9 +23,10 @@ export default async function SpeakersPage() {
     .order('name', { ascending: true });
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      <div className="mx-auto max-w-6xl px-4 py-8 sm:py-10">
-        <header className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+    <div className="flex min-h-screen flex-col bg-gray-50">
+      <main className="flex-1">
+        <div className="mx-auto max-w-6xl px-4 py-8 sm:py-10">
+          <header className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="text-2xl font-semibold text-gray-900">
               Speaker Directory
@@ -41,14 +43,16 @@ export default async function SpeakersPage() {
           </Link>
         </header>
 
-        {error ? (
-          <p className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
-            Couldn’t load the directory: {error.message}
-          </p>
-        ) : (
-          <Directory speakers={speakers ?? []} />
-        )}
-      </div>
-    </main>
+          {error ? (
+            <p className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+              Couldn’t load the directory: {error.message}
+            </p>
+          ) : (
+            <Directory speakers={speakers ?? []} />
+          )}
+        </div>
+      </main>
+      <Footer />
+    </div>
   );
 }

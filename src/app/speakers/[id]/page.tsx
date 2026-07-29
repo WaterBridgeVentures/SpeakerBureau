@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/server';
 import { SPEAKER_COLUMNS } from '@/lib/constants';
 import { Avatar } from '@/app/speakers/_components/Avatar';
 import { SpecialityTags } from '@/app/speakers/_components/SpecialityTags';
+import { Footer } from '@/app/_components/Footer';
 import { IntroRequestForm } from '@/app/speakers/_components/IntroRequestForm';
 
 const UUID_RE =
@@ -45,14 +46,15 @@ export default async function SpeakerProfilePage({ params }: PageParams) {
   if (!speaker) notFound();
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      <div className="mx-auto max-w-2xl px-4 py-8 sm:py-10">
-        <Link
-          href="/speakers"
-          className="inline-block text-sm font-medium text-indigo-600 hover:text-indigo-500"
-        >
-          ← Back to directory
-        </Link>
+    <div className="flex min-h-screen flex-col bg-gray-50">
+      <main className="flex-1">
+        <div className="mx-auto max-w-2xl px-4 py-8 sm:py-10">
+          <Link
+            href="/speakers"
+            className="inline-block text-sm font-medium text-indigo-600 hover:text-indigo-500"
+          >
+            ← Back to directory
+          </Link>
 
         <article className="mt-4 rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
           <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-start sm:text-left">
@@ -96,8 +98,10 @@ export default async function SpeakerProfilePage({ params }: PageParams) {
               speakerName={speaker.name}
             />
           </div>
-        </article>
-      </div>
-    </main>
+          </article>
+        </div>
+      </main>
+      <Footer />
+    </div>
   );
 }

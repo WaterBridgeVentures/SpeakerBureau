@@ -5,6 +5,7 @@ import {
   NominateForm,
   type Prefill,
 } from '@/app/nominate/_components/NominateForm';
+import { Footer } from '@/app/_components/Footer';
 
 export const metadata: Metadata = {
   title: 'Nominate Yourself — Women’s Speaker Bureau',
@@ -45,22 +46,28 @@ export default async function NominatePage({
       : null;
 
   return (
-    <main className="min-h-screen bg-gray-50 px-4 py-10">
-      <div className="mx-auto w-full max-w-lg">
-        <div className="mb-6">
-          <h1 className="text-xl font-semibold text-gray-900">
-            Nominate Yourself
-          </h1>
-          <p className="mt-1 text-sm text-gray-500">
-            Join the Women’s Speaker Bureau directory. Submissions are reviewed
-            before they appear publicly.
-          </p>
-        </div>
+    <div className="flex min-h-screen flex-col bg-gray-50">
+      <main className="flex-1 px-4 py-10">
+        <div className="mx-auto w-full max-w-lg">
+          <div className="mb-6">
+            <h1 className="text-xl font-semibold text-gray-900">
+              Nominate Yourself
+            </h1>
+            <p className="mt-1 text-sm text-gray-500">
+              Join the Women’s Speaker Bureau directory. Submissions are reviewed
+              before they appear publicly.
+            </p>
+          </div>
 
-        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
-          <NominateForm prefill={prefill} linkedInError={linkedin === 'error'} />
+          <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
+            <NominateForm
+              prefill={prefill}
+              linkedInError={linkedin === 'error'}
+            />
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+      <Footer />
+    </div>
   );
 }

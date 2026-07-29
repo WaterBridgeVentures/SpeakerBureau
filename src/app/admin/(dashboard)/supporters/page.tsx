@@ -10,7 +10,7 @@ export default async function SupportersPage() {
   const { data, error } = await supabase
     .from('supporters')
     .select('*')
-    .order('display_order', { ascending: true });
+    .order('org_name', { ascending: true });
 
   if (error) {
     return <p className="text-sm text-red-600">Failed to load: {error.message}</p>;

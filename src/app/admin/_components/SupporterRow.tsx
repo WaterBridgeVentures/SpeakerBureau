@@ -29,13 +29,7 @@ export function SupporterRow({ supporter }: { supporter: Supporter }) {
             name="link_url"
             defaultValue={supporter.link_url ?? ''}
             placeholder="Website URL (optional)"
-            className={inputCls}
-          />
-          <input
-            name="display_order"
-            type="number"
-            defaultValue={supporter.display_order}
-            className={inputCls}
+            className={`${inputCls} sm:col-span-2`}
           />
           {error && <p className="text-sm text-red-600 sm:col-span-2">{error}</p>}
           <div className="flex gap-2 sm:col-span-2">
@@ -70,19 +64,15 @@ export function SupporterRow({ supporter }: { supporter: Supporter }) {
         <div>
           <p className="font-medium text-gray-900">{supporter.org_name}</p>
           <p className="text-xs text-gray-500">
-            Order {supporter.display_order}
             {supporter.link_url && (
-              <>
-                {' · '}
-                <a
-                  href={supporter.link_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-indigo-600 hover:text-indigo-500"
-                >
-                  website ↗
-                </a>
-              </>
+              <a
+                href={supporter.link_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-indigo-600 hover:text-indigo-500"
+              >
+                website ↗
+              </a>
             )}
           </p>
         </div>
