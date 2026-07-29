@@ -7,7 +7,7 @@ import { useActionRunner } from '@/app/admin/_components/useActionRunner';
 import type { Supporter } from '@/lib/database.types';
 
 const inputCls =
-  'w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500';
+  'w-full rounded-md border border-wbv-slate/40 px-3 py-2 text-sm text-wbv-secondary placeholder-gray-400 focus:border-wbv-accent focus:outline-none focus:ring-1 focus:ring-wbv-accent';
 
 export function SupporterRow({ supporter }: { supporter: Supporter }) {
   const [editing, setEditing] = useState(false);
@@ -21,7 +21,7 @@ export function SupporterRow({ supporter }: { supporter: Supporter }) {
 
   if (editing) {
     return (
-      <li className="rounded-lg border border-gray-200 bg-white p-4">
+      <li className="rounded-lg border border-wbv-slate/30 bg-white p-4">
         <form onSubmit={onSave} className="grid gap-3 sm:grid-cols-2">
           <input name="org_name" defaultValue={supporter.org_name} className={inputCls} required />
           <input name="logo_url" defaultValue={supporter.logo_url} className={inputCls} required />
@@ -36,14 +36,14 @@ export function SupporterRow({ supporter }: { supporter: Supporter }) {
             <button
               type="submit"
               disabled={pending}
-              className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-500 disabled:opacity-50"
+              className="rounded-md bg-wbv-primary px-3 py-2 text-sm font-medium text-wbv-black hover:brightness-95 disabled:opacity-50"
             >
               {pending ? 'Saving…' : 'Save'}
             </button>
             <button
               type="button"
               onClick={() => setEditing(false)}
-              className="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              className="rounded-md border border-wbv-slate/40 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-wbv-ivory"
             >
               Cancel
             </button>
@@ -54,7 +54,7 @@ export function SupporterRow({ supporter }: { supporter: Supporter }) {
   }
 
   return (
-    <li className="flex flex-col gap-3 rounded-lg border border-gray-200 bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
+    <li className="flex flex-col gap-3 rounded-lg border border-wbv-slate/30 bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
       <div className="flex items-center gap-3">
         <img
           src={supporter.logo_url}
@@ -62,14 +62,14 @@ export function SupporterRow({ supporter }: { supporter: Supporter }) {
           className="h-10 w-10 rounded object-contain"
         />
         <div>
-          <p className="font-medium text-gray-900">{supporter.org_name}</p>
+          <p className="font-medium text-wbv-secondary">{supporter.org_name}</p>
           <p className="text-xs text-gray-500">
             {supporter.link_url && (
               <a
                 href={supporter.link_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-indigo-600 hover:text-indigo-500"
+                className="text-wbv-accent hover:brightness-90"
               >
                 website ↗
               </a>
@@ -82,7 +82,7 @@ export function SupporterRow({ supporter }: { supporter: Supporter }) {
         <button
           type="button"
           onClick={() => setEditing(true)}
-          className="rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          className="rounded-md border border-wbv-slate/40 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-wbv-ivory"
         >
           Edit
         </button>

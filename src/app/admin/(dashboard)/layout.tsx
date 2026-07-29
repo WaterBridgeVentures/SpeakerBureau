@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 
 import { requireAdmin } from '@/lib/dal';
 import { ADMIN_ROLE_LABELS } from '@/lib/constants';
@@ -20,24 +21,33 @@ export default async function DashboardLayout({
   const admin = await requireAdmin();
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900">
-      <header className="border-b border-gray-200 bg-white">
+    <div className="min-h-screen bg-wbv-ivory text-wbv-black">
+      <header className="bg-wbv-secondary">
         <div className="mx-auto flex max-w-5xl flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h1 className="text-base font-semibold text-gray-900">
-              Women’s Speaker Bureau — Admin
-            </h1>
-            <p className="text-xs text-gray-500">
-              {admin.email}
-              <span className="mx-1.5 text-gray-300">•</span>
-              <span className="font-medium text-gray-700">
-                {ADMIN_ROLE_LABELS[admin.role]}
-              </span>
-            </p>
+          <div className="flex items-center gap-4">
+            <Link href="/admin" aria-label="WaterBridge Ventures — admin home">
+              <img
+                src="/wbv-logo.png"
+                alt="WaterBridge Ventures"
+                className="h-auto max-w-[150px]"
+              />
+            </Link>
+            <div>
+              <h1 className="text-sm font-semibold text-white">
+                Women’s Speaker Bureau — Admin
+              </h1>
+              <p className="text-xs text-white/60">
+                {admin.email}
+                <span className="mx-1.5 text-white/30">•</span>
+                <span className="font-medium text-white/80">
+                  {ADMIN_ROLE_LABELS[admin.role]}
+                </span>
+              </p>
+            </div>
           </div>
           <SignOutButton />
         </div>
-        <div className="mx-auto max-w-5xl px-4">
+        <div className="mx-auto max-w-5xl border-t border-white/10 px-4">
           <NavTabs role={admin.role} />
         </div>
       </header>

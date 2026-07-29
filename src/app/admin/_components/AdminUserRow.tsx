@@ -19,9 +19,9 @@ export function AdminUserRow({
   const { pending, error, run } = useActionRunner();
 
   return (
-    <li className="flex flex-col gap-3 rounded-lg border border-gray-200 bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
+    <li className="flex flex-col gap-3 rounded-lg border border-wbv-slate/30 bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
       <div className="min-w-0">
-        <p className="truncate font-medium text-gray-900">
+        <p className="truncate font-medium text-wbv-secondary">
           {email}
           {isSelf && <span className="ml-2 text-xs text-gray-400">(you)</span>}
         </p>
@@ -37,7 +37,7 @@ export function AdminUserRow({
           onChange={(e) =>
             run(() => updateAdminRole(userId, e.target.value as AdminRole))
           }
-          className="rounded-md border border-gray-300 bg-white px-2 py-1.5 text-sm text-gray-700 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
+          className="rounded-md border border-wbv-slate/40 bg-white px-2 py-1.5 text-sm text-gray-700 focus:border-wbv-accent focus:outline-none focus:ring-1 focus:ring-wbv-accent disabled:opacity-50"
         >
           {ADMIN_ROLES.map((r) => (
             <option key={r} value={r}>

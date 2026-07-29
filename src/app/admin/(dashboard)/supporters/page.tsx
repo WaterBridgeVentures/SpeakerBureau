@@ -19,12 +19,12 @@ export default async function SupportersPage() {
 
   return (
     <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-gray-900">Supporters</h2>
+      <h2 className="text-lg font-semibold text-wbv-secondary">Supporters</h2>
 
       <AddSupporterForm />
 
       {supporters.length === 0 ? (
-        <p className="rounded-lg border border-dashed border-gray-300 bg-white p-8 text-center text-sm text-gray-500">
+        <p className="rounded-lg border border-dashed border-wbv-slate/40 bg-white p-8 text-center text-sm text-gray-500">
           No supporters yet.
         </p>
       ) : (

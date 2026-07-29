@@ -29,7 +29,7 @@ export default async function AdminUsersPage() {
 
   return (
     <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-gray-900">Admin Users</h2>
+      <h2 className="text-lg font-semibold text-wbv-secondary">Admin Users</h2>
 
       <AddAdminForm />
 

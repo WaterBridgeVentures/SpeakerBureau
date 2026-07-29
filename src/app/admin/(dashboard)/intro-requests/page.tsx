@@ -34,14 +34,14 @@ export default async function IntroRequestsPage() {
   return (
     <section>
       <div className="mb-4 flex items-baseline justify-between">
-        <h2 className="text-lg font-semibold text-gray-900">
+        <h2 className="text-lg font-semibold text-wbv-secondary">
           Pending Intro Requests
         </h2>
         <span className="text-sm text-gray-500">{requests.length} pending</span>
       </div>
 
       {requests.length === 0 ? (
-        <p className="rounded-lg border border-dashed border-gray-300 bg-white p-8 text-center text-sm text-gray-500">
+        <p className="rounded-lg border border-dashed border-wbv-slate/40 bg-white p-8 text-center text-sm text-gray-500">
           No pending intro requests right now.
         </p>
       ) : (
@@ -51,10 +51,10 @@ export default async function IntroRequestsPage() {
             return (
               <li
                 key={req.id}
-                className="flex flex-col gap-4 rounded-lg border border-gray-200 bg-white p-4 sm:flex-row sm:items-start sm:justify-between"
+                className="flex flex-col gap-4 rounded-lg border border-wbv-slate/30 bg-white p-4 sm:flex-row sm:items-start sm:justify-between"
               >
                 <div className="min-w-0 space-y-2 text-sm">
-                  <p className="text-gray-900">
+                  <p className="text-wbv-secondary">
                     <span className="font-medium">{req.requester_name}</span>
                     {req.requester_org && (
                       <span className="text-gray-500"> · {req.requester_org}</span>
@@ -63,14 +63,14 @@ export default async function IntroRequestsPage() {
                   <p className="text-gray-500">
                     <a
                       href={`mailto:${req.requester_email}`}
-                      className="text-indigo-600 hover:text-indigo-500"
+                      className="text-wbv-accent hover:brightness-90"
                     >
                       {req.requester_email}
                     </a>
                   </p>
                   <p className="text-gray-700">
                     Wants an intro to{' '}
-                    <span className="font-medium text-gray-900">
+                    <span className="font-medium text-wbv-secondary">
                       {speaker ? speaker.name : 'Unknown speaker'}
                     </span>
                     {speaker && (
@@ -78,7 +78,7 @@ export default async function IntroRequestsPage() {
                     )}
                   </p>
                   {req.reason && (
-                    <p className="rounded-md bg-gray-50 p-3 text-gray-600">
+                    <p className="rounded-md bg-wbv-ivory p-3 text-gray-600">
                       “{req.reason}”
                     </p>
                   )}

@@ -6,7 +6,7 @@ const STYLES: Record<string, string> = {
   rejected: 'bg-red-100 text-red-800',
   inactive: 'bg-gray-200 text-gray-700',
   declined: 'bg-red-100 text-red-800',
-  introduced: 'bg-indigo-100 text-indigo-800',
+  introduced: 'bg-wbv-secondary/10 text-wbv-secondary',
 };
 
 export function StatusBadge({

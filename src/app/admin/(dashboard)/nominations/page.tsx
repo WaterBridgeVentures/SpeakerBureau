@@ -22,14 +22,14 @@ export default async function NominationsPage() {
   return (
     <section>
       <div className="mb-4 flex items-baseline justify-between">
-        <h2 className="text-lg font-semibold text-gray-900">
+        <h2 className="text-lg font-semibold text-wbv-secondary">
           Pending Nominations
         </h2>
         <span className="text-sm text-gray-500">{speakers.length} pending</span>
       </div>
 
       {speakers.length === 0 ? (
-        <p className="rounded-lg border border-dashed border-gray-300 bg-white p-8 text-center text-sm text-gray-500">
+        <p className="rounded-lg border border-dashed border-wbv-slate/40 bg-white p-8 text-center text-sm text-gray-500">
           No pending nominations right now.
         </p>
       ) : (
@@ -37,7 +37,7 @@ export default async function NominationsPage() {
           {speakers.map((speaker) => (
             <li
               key={speaker.id}
-              className="flex flex-col gap-4 rounded-lg border border-gray-200 bg-white p-4 sm:flex-row sm:items-start sm:justify-between"
+              className="flex flex-col gap-4 rounded-lg border border-wbv-slate/30 bg-white p-4 sm:flex-row sm:items-start sm:justify-between"
             >
               <SpeakerSummary speaker={speaker} />
               <NominationActions speakerId={speaker.id} />

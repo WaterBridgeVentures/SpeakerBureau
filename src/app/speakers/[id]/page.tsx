@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/server';
 import { SPEAKER_COLUMNS } from '@/lib/constants';
 import { Avatar } from '@/app/speakers/_components/Avatar';
 import { SpecialityTags } from '@/app/speakers/_components/SpecialityTags';
+import { Header } from '@/app/_components/Header';
 import { Footer } from '@/app/_components/Footer';
 import { IntroRequestForm } from '@/app/speakers/_components/IntroRequestForm';
 
@@ -46,17 +47,18 @@ export default async function SpeakerProfilePage({ params }: PageParams) {
   if (!speaker) notFound();
 
   return (
-    <div className="flex min-h-screen flex-col bg-gray-50">
+    <div className="flex min-h-screen flex-col bg-wbv-ivory">
+      <Header />
       <main className="flex-1">
         <div className="mx-auto max-w-2xl px-4 py-8 sm:py-10">
           <Link
             href="/speakers"
-            className="inline-block text-sm font-medium text-indigo-600 hover:text-indigo-500"
+            className="inline-block text-sm font-medium text-wbv-accent hover:brightness-90"
           >
             ← Back to directory
           </Link>
 
-        <article className="mt-4 rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
+        <article className="mt-4 rounded-2xl border border-wbv-slate/30 bg-white p-6 sm:p-8">
           <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-start sm:text-left">
             <Avatar
               name={speaker.name}
@@ -64,7 +66,7 @@ export default async function SpeakerProfilePage({ params }: PageParams) {
               size="lg"
             />
             <div className="min-w-0">
-              <h1 className="text-2xl font-semibold text-gray-900">
+              <h1 className="text-2xl font-semibold text-wbv-secondary">
                 {speaker.name}
               </h1>
               <p className="mt-0.5 text-gray-600">{speaker.designation}</p>
@@ -88,7 +90,7 @@ export default async function SpeakerProfilePage({ params }: PageParams) {
               href={speaker.linkedin_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-md border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              className="inline-flex items-center justify-center gap-2 rounded-md border border-wbv-slate/40 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-wbv-ivory"
             >
               View LinkedIn profile ↗
             </a>

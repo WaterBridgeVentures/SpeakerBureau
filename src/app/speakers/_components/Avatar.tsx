@@ -35,7 +35,7 @@ export function Avatar({
 
   return (
     <div
-      className={`${dim} flex shrink-0 items-center justify-center rounded-full bg-indigo-100 font-semibold text-indigo-700`}
+      className={`${dim} flex shrink-0 items-center justify-center rounded-full bg-wbv-secondary/10 font-semibold text-wbv-secondary`}
       aria-hidden="true"
     >
       {initials}

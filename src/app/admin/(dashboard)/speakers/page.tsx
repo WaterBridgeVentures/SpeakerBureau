@@ -21,12 +21,12 @@ export default async function AllSpeakersPage() {
   return (
     <section>
       <div className="mb-4 flex items-baseline justify-between">
-        <h2 className="text-lg font-semibold text-gray-900">All Speakers</h2>
+        <h2 className="text-lg font-semibold text-wbv-secondary">All Speakers</h2>
         <span className="text-sm text-gray-500">{speakers.length} total</span>
       </div>
 
       {speakers.length === 0 ? (
-        <p className="rounded-lg border border-dashed border-gray-300 bg-white p-8 text-center text-sm text-gray-500">
+        <p className="rounded-lg border border-dashed border-wbv-slate/40 bg-white p-8 text-center text-sm text-gray-500">
           No speakers yet.
         </p>
       ) : (

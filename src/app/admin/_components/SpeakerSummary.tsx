@@ -17,7 +17,7 @@ function Avatar({ speaker }: { speaker: Speaker }) {
     .join('')
     .toUpperCase();
   return (
-    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-indigo-100 text-sm font-semibold text-indigo-700">
+    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-wbv-secondary/10 text-sm font-semibold text-wbv-secondary">
       {initials}
     </div>
   );
@@ -28,7 +28,7 @@ export function SpeakerSummary({ speaker }: { speaker: Speaker }) {
     <div className="flex gap-3">
       <Avatar speaker={speaker} />
       <div className="min-w-0">
-        <p className="font-medium text-gray-900">{speaker.name}</p>
+        <p className="font-medium text-wbv-secondary">{speaker.name}</p>
         <p className="text-sm text-gray-600">{speaker.designation}</p>
         <div className="mt-1.5 flex flex-wrap gap-1.5">
           {speaker.industry_speciality && (
@@ -49,7 +49,7 @@ export function SpeakerSummary({ speaker }: { speaker: Speaker }) {
           href={speaker.linkedin_url}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-2 inline-block text-xs font-medium text-indigo-600 hover:text-indigo-500"
+          className="mt-2 inline-block text-xs font-medium text-wbv-accent hover:brightness-90"
         >
           LinkedIn ↗
         </a>

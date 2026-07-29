@@ -17,7 +17,7 @@ const SPEAKER_STATUSES: SpeakerStatus[] = [
 ];
 
 const inputCls =
-  'w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500';
+  'w-full rounded-md border border-wbv-slate/40 px-3 py-2 text-sm text-wbv-secondary placeholder-gray-400 focus:border-wbv-accent focus:outline-none focus:ring-1 focus:ring-wbv-accent';
 
 export function SpeakerEditor({ speaker }: { speaker: Speaker }) {
   const [editing, setEditing] = useState(false);
@@ -30,7 +30,7 @@ export function SpeakerEditor({ speaker }: { speaker: Speaker }) {
   }
 
   return (
-    <li className="rounded-lg border border-gray-200 bg-white p-4">
+    <li className="rounded-lg border border-wbv-slate/30 bg-white p-4">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <SpeakerSummary speaker={speaker} />
         <div className="flex flex-col items-stretch gap-2 sm:items-end">
@@ -45,7 +45,7 @@ export function SpeakerEditor({ speaker }: { speaker: Speaker }) {
                   setSpeakerStatus(speaker.id, e.target.value as SpeakerStatus)
                 )
               }
-              className="rounded-md border border-gray-300 bg-white px-2 py-1.5 text-sm text-gray-700 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
+              className="rounded-md border border-wbv-slate/40 bg-white px-2 py-1.5 text-sm text-gray-700 focus:border-wbv-accent focus:outline-none focus:ring-1 focus:ring-wbv-accent disabled:opacity-50"
             >
               {SPEAKER_STATUSES.map((s) => (
                 <option key={s} value={s}>
@@ -57,7 +57,7 @@ export function SpeakerEditor({ speaker }: { speaker: Speaker }) {
           <button
             type="button"
             onClick={() => setEditing((v) => !v)}
-            className="rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            className="rounded-md border border-wbv-slate/40 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-wbv-ivory"
           >
             {editing ? 'Close' : 'Edit'}
           </button>
@@ -133,7 +133,7 @@ export function SpeakerEditor({ speaker }: { speaker: Speaker }) {
             <button
               type="submit"
               disabled={pending}
-              className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-500 disabled:opacity-50"
+              className="rounded-md bg-wbv-primary px-3 py-2 text-sm font-medium text-wbv-black hover:brightness-95 disabled:opacity-50"
             >
               {pending ? 'Saving…' : 'Save changes'}
             </button>

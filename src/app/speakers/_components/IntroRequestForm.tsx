@@ -8,7 +8,7 @@ import {
 } from '@/app/speakers/[id]/actions';
 
 const inputCls =
-  'mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500';
+  'mt-1 w-full rounded-md border border-wbv-slate/40 px-3 py-2 text-sm text-wbv-secondary placeholder-gray-400 focus:border-wbv-accent focus:outline-none focus:ring-1 focus:ring-wbv-accent';
 const labelCls = 'block text-sm font-medium text-gray-700';
 
 export function IntroRequestForm({
@@ -43,7 +43,7 @@ export function IntroRequestForm({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="w-full rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-indigo-500"
+        className="w-full rounded-md bg-wbv-primary px-4 py-2.5 text-sm font-medium text-wbv-black hover:brightness-95"
       >
         Request an Introduction
       </button>
@@ -55,7 +55,7 @@ export function IntroRequestForm({
       <input type="hidden" name="speaker_id" value={speakerId} />
 
       <div>
-        <h2 className="text-sm font-semibold text-gray-900">
+        <h2 className="text-sm font-semibold text-wbv-secondary">
           Request an introduction to {speakerName}
         </h2>
         <p className="mt-0.5 text-xs text-gray-500">
@@ -127,14 +127,14 @@ export function IntroRequestForm({
         <button
           type="submit"
           disabled={pending}
-          className="flex-1 rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-indigo-500 disabled:opacity-50"
+          className="flex-1 rounded-md bg-wbv-primary px-4 py-2.5 text-sm font-medium text-wbv-black hover:brightness-95 disabled:opacity-50"
         >
           {pending ? 'Sending…' : 'Send request'}
         </button>
         <button
           type="button"
           onClick={() => setOpen(false)}
-          className="rounded-md border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          className="rounded-md border border-wbv-slate/40 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-wbv-ivory"
         >
           Cancel
         </button>

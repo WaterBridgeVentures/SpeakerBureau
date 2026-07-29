@@ -5,6 +5,7 @@ import {
   NominateForm,
   type Prefill,
 } from '@/app/nominate/_components/NominateForm';
+import { Header } from '@/app/_components/Header';
 import { Footer } from '@/app/_components/Footer';
 
 export const metadata: Metadata = {
@@ -46,11 +47,12 @@ export default async function NominatePage({
       : null;
 
   return (
-    <div className="flex min-h-screen flex-col bg-gray-50">
+    <div className="flex min-h-screen flex-col bg-wbv-ivory">
+      <Header />
       <main className="flex-1 px-4 py-10">
         <div className="mx-auto w-full max-w-lg">
           <div className="mb-6">
-            <h1 className="text-xl font-semibold text-gray-900">
+            <h1 className="text-xl font-semibold text-wbv-secondary">
               Nominate Yourself
             </h1>
             <p className="mt-1 text-sm text-gray-500">
@@ -59,7 +61,7 @@ export default async function NominatePage({
             </p>
           </div>
 
-          <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
+          <div className="rounded-xl border border-wbv-slate/30 bg-white p-5 shadow-sm sm:p-6">
             <NominateForm
               prefill={prefill}
               linkedInError={linkedin === 'error'}

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { SPEAKER_COLUMNS } from '@/lib/constants';
 import { Directory } from '@/app/speakers/_components/Directory';
+import { Header } from '@/app/_components/Header';
 import { Footer } from '@/app/_components/Footer';
 
 export const metadata: Metadata = {
@@ -23,12 +24,13 @@ export default async function SpeakersPage() {
     .order('name', { ascending: true });
 
   return (
-    <div className="flex min-h-screen flex-col bg-gray-50">
+    <div className="flex min-h-screen flex-col bg-wbv-ivory">
+      <Header />
       <main className="flex-1">
         <div className="mx-auto max-w-6xl px-4 py-8 sm:py-10">
           <header className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h1 className="text-2xl font-semibold text-gray-900">
+            <h1 className="text-2xl font-semibold text-wbv-secondary">
               Speaker Directory
             </h1>
             <p className="mt-1 text-sm text-gray-500">
@@ -37,7 +39,7 @@ export default async function SpeakersPage() {
           </div>
           <Link
             href="/nominate"
-            className="inline-flex shrink-0 items-center justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500"
+            className="inline-flex shrink-0 items-center justify-center rounded-md bg-wbv-primary px-4 py-2 text-sm font-medium text-wbv-black hover:brightness-95"
           >
             Nominate yourself
           </Link>

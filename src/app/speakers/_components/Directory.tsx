@@ -7,7 +7,7 @@ import { DOMAIN_SPECIALITIES, INDUSTRY_SPECIALITIES } from '@/lib/constants';
 import type { Speaker } from '@/lib/database.types';
 
 const controlCls =
-  'w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500';
+  'w-full rounded-md border border-wbv-slate/40 bg-white px-3 py-2 text-sm text-wbv-secondary placeholder-gray-400 focus:border-wbv-accent focus:outline-none focus:ring-1 focus:ring-wbv-accent';
 
 export function Directory({ speakers }: { speakers: Speaker[] }) {
   const [query, setQuery] = useState('');
@@ -78,7 +78,7 @@ export function Directory({ speakers }: { speakers: Speaker[] }) {
               setIndustry('');
               setDomain('');
             }}
-            className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+            className="text-sm font-medium text-wbv-accent hover:brightness-90"
           >
             Clear filters
           </button>
@@ -87,7 +87,7 @@ export function Directory({ speakers }: { speakers: Speaker[] }) {
 
       {/* Grid — single column under 768px, then 2/3 columns */}
       {filtered.length === 0 ? (
-        <p className="mt-6 rounded-lg border border-dashed border-gray-300 bg-white p-10 text-center text-sm text-gray-500">
+        <p className="mt-6 rounded-lg border border-dashed border-wbv-slate/40 bg-white p-10 text-center text-sm text-gray-500">
           {speakers.length === 0
             ? 'No speakers in the directory yet — check back soon.'
             : 'No speakers match your search. Try clearing the filters.'}

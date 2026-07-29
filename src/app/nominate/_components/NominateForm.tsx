@@ -14,7 +14,7 @@ export type Prefill = {
 };
 
 const inputCls =
-  'mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500';
+  'mt-1 w-full rounded-md border border-wbv-slate/40 px-3 py-2 text-sm text-wbv-secondary placeholder-gray-400 focus:border-wbv-accent focus:outline-none focus:ring-1 focus:ring-wbv-accent';
 const labelCls = 'block text-sm font-medium text-gray-700';
 
 export function NominateForm({
@@ -223,7 +223,7 @@ export function NominateForm({
         <button
           type="submit"
           disabled={pending}
-          className="inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-indigo-500 disabled:opacity-50"
+          className="inline-flex w-full items-center justify-center rounded-md bg-wbv-primary px-4 py-2.5 text-sm font-medium text-wbv-black hover:brightness-95 disabled:opacity-50"
         >
           {pending ? 'Submitting…' : 'Submit nomination'}
         </button>

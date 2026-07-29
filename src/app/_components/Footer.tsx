@@ -38,7 +38,7 @@ export async function Footer() {
   if (supporters.length === 0) return null;
 
   return (
-    <footer className="border-t border-gray-200 bg-white">
+    <footer className="border-t border-wbv-slate/30 bg-white">
       <div className="mx-auto max-w-6xl px-4 py-8">
         <p className="mb-5 text-center text-xs font-medium uppercase tracking-wide text-gray-400">
           Supported by

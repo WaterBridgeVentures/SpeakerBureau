@@ -1,26 +1,46 @@
 @import "tailwindcss";
 
+/* WaterBridge Ventures brand tokens — the six brand colors as CSS variables so
+   they stay consistent site-wide. Adjust here and the whole site follows. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --wbv-primary: #ffb400; /* Solar Amber — CTAs, key highlights */
+  --wbv-secondary: #061a4a; /* Midnight Indigo — header/nav, headings */
+  --wbv-accent: #1ac6ff; /* Electric Aqua — links */
+  --wbv-slate: #697d82; /* Slate Mist — subtle borders, muted UI */
+  --wbv-ivory: #f7f6f3; /* Ivory Mist — page background */
+  --wbv-black: #1d1d1d; /* Carbon Black — body text */
+
+  --font-heading: "Concrette", Georgia, "Times New Roman", serif;
+  --font-body: "Sofia Pro", Calibri, "Helvetica Neue", Arial, sans-serif;
 }
 
+/* Expose the brand colors + fonts to Tailwind so `bg-wbv-primary`,
+   `text-wbv-secondary`, `border-wbv-slate`, `font-heading`, etc. work. */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-wbv-primary: var(--wbv-primary);
+  --color-wbv-secondary: var(--wbv-secondary);
+  --color-wbv-accent: var(--wbv-accent);
+  --color-wbv-slate: var(--wbv-slate);
+  --color-wbv-ivory: var(--wbv-ivory);
+  --color-wbv-black: var(--wbv-black);
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-heading);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--wbv-ivory);
+  color: var(--wbv-black);
+  font-family: var(--font-body);
+}
+
+/* Headings in Concrette (fallback Georgia/serif), Midnight Indigo. Utility
+   text-color classes (e.g. text-white on the dark header) still override. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  color: var(--wbv-secondary);
 }
