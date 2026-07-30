@@ -4,9 +4,10 @@ import { useActionState } from 'react';
 
 import { submitNomination, type NominateState } from '@/app/nominate/actions';
 import { LinkedInButton } from '@/app/nominate/_components/LinkedInButton';
+import { TagCheckboxes } from '@/app/_components/TagCheckboxes';
 import {
-  DOMAIN_SPECIALITIES,
-  INDUSTRY_SPECIALITIES,
+  DOMAINS,
+  INDUSTRIES,
   SPEAKING_FORMATS,
   SPEAKING_FORMAT_LABELS,
 } from '@/lib/constants';
@@ -167,43 +168,19 @@ export function NominateForm({
           </p>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div>
-            <label htmlFor="industry_speciality" className={labelCls}>
-              Industry speciality
-            </label>
-            <select
-              id="industry_speciality"
-              name="industry_speciality"
-              defaultValue=""
-              className={inputCls}
-            >
-              <option value="">— select —</option>
-              {INDUSTRY_SPECIALITIES.map((v) => (
-                <option key={v} value={v}>
-                  {v}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label htmlFor="domain_speciality" className={labelCls}>
-              Domain speciality
-            </label>
-            <select
-              id="domain_speciality"
-              name="domain_speciality"
-              defaultValue=""
-              className={inputCls}
-            >
-              <option value="">— select —</option>
-              {DOMAIN_SPECIALITIES.map((v) => (
-                <option key={v} value={v}>
-                  {v}
-                </option>
-              ))}
-            </select>
-          </div>
+        <div className="space-y-4">
+          <TagCheckboxes
+            legend="Industries (select all that apply)"
+            name="industries"
+            otherName="industry_other_text"
+            options={INDUSTRIES}
+          />
+          <TagCheckboxes
+            legend="Domains (select all that apply)"
+            name="domains"
+            otherName="domain_other_text"
+            options={DOMAINS}
+          />
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">

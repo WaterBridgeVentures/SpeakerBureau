@@ -9,7 +9,7 @@ export function MultiSelect({
   onChange,
 }: {
   label: string;
-  options: string[];
+  options: readonly string[];
   selected: string[];
   onChange: (next: string[]) => void;
 }) {

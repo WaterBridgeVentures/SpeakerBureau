@@ -1,6 +1,7 @@
 import { requireAdmin } from '@/lib/dal';
 import { createClient } from '@/lib/supabase/server';
 import { SPEAKER_COLUMNS } from '@/lib/constants';
+import { attachTags } from '@/lib/speaker-tags';
 import { SpeakerSummary } from '@/app/admin/_components/SpeakerSummary';
 import { NominationActions } from '@/app/admin/_components/NominationActions';
 
@@ -17,7 +18,7 @@ export default async function NominationsPage() {
   if (error) {
     return <p className="text-sm text-red-600">Failed to load: {error.message}</p>;
   }
-  const speakers = data ?? [];
+  const speakers = await attachTags(supabase, data ?? []);
 
   return (
     <section>

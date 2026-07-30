@@ -1,37 +1,62 @@
-import type {
-  AdminRole,
-  DomainSpeciality,
-  IndustrySpeciality,
-  SpeakingFormat,
-} from '@/lib/database.types';
+import type { AdminRole, SpeakingFormat } from '@/lib/database.types';
 
-// Dropdown values — kept in sync with the enum types in the DB migrations.
-export const INDUSTRY_SPECIALITIES: IndustrySpeciality[] = [
-  'Technology',
-  'Financial Services',
+// The literal label used for a free-text "other" speciality. When a speaker
+// selects this, they also provide industry_other_text / domain_other_text.
+export const OTHERS = 'Others';
+
+// Multi-select speciality vocabularies. Kept in sync with the CHECK constraints
+// in supabase/migrations/0006_multi_speciality.sql. A speaker may hold any
+// number of each (see the speaker_industries / speaker_domains join tables).
+export const INDUSTRIES = [
+  'AI, Software and Technology',
+  'Fintech, Banking and Financial Services',
   'Healthcare',
   'Consumer/Retail',
   'Media & Entertainment',
   'Education',
-  'Manufacturing',
+  'Hardware and Manufacturing',
   'Real Estate',
+  'Climate Tech',
+  'DeepTech',
+  'Agritech and Rural Economy',
+  'Logistics & Supply Chain',
+  'Legal / RegTech',
   'Public Sector/Policy',
   'Non-profit/Social Impact',
-  'Other',
-];
+  OTHERS,
+] as const;
+export type Industry = (typeof INDUSTRIES)[number];
 
-export const DOMAIN_SPECIALITIES: DomainSpeciality[] = [
-  'Sales',
+/**
+ * Display labels for a speaker's tags: the canonical "Others" is replaced by the
+ * speaker's free-text label when present. Use for cards / profiles — NOT for
+ * filtering, which always matches on the canonical "Others". Pure + client-safe.
+ */
+export function resolveTagLabels(
+  labels: string[],
+  otherText: string | null
+): string[] {
+  return labels.map((l) =>
+    l === OTHERS && otherText?.trim() ? otherText.trim() : l
+  );
+}
+
+export const DOMAINS = [
+  'Sales and GTM',
   'Marketing',
   'Finance',
-  'GTM',
+  'Technology and Engineering',
   'Product',
   'Operations',
-  'HR',
+  'People and Talent',
   'Strategy',
-  'Fundraising',
-  'Other',
-];
+  'Legal/Compliance',
+  'Data/Analytics',
+  'Board Governance / Investor Relations',
+  'ESG/Impact',
+  OTHERS,
+] as const;
+export type Domain = (typeof DOMAINS)[number];
 
 export const SPEAKING_FORMATS: SpeakingFormat[] = [
   'in_person',
@@ -49,7 +74,7 @@ export const SPEAKING_FORMAT_LABELS: Record<SpeakingFormat, string> = {
 // `email`). Use this instead of '*' anywhere a non-service-role client reads
 // speakers, since selecting `email` there is denied by column grants.
 export const SPEAKER_COLUMNS =
-  'id, name, designation, linkedin_url, photo_url, industry_speciality, domain_speciality, bio, status, created_at, verified, location, in_person_or_virtual, featured, paused';
+  'id, name, designation, linkedin_url, photo_url, bio, status, created_at, verified, location, in_person_or_virtual, featured, paused, industry_other_text, domain_other_text';
 
 export const ADMIN_ROLES: AdminRole[] = ['super_admin', 'approver'];
 

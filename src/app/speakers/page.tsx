@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 import { createClient } from '@/lib/supabase/server';
 import { SPEAKER_COLUMNS } from '@/lib/constants';
+import { attachTags } from '@/lib/speaker-tags';
 import { Directory } from '@/app/speakers/_components/Directory';
 import { Header } from '@/app/_components/Header';
 import { Footer } from '@/app/_components/Footer';
@@ -23,6 +24,8 @@ export default async function SpeakersPage() {
     .eq('status', 'approved')
     .eq('paused', false)
     .order('name', { ascending: true });
+
+  const speakersWithTags = error ? [] : await attachTags(supabase, speakers ?? []);
 
   return (
     <div className="flex min-h-screen flex-col bg-wbv-ivory">
@@ -51,7 +54,7 @@ export default async function SpeakersPage() {
               Couldn’t load the directory: {error.message}
             </p>
           ) : (
-            <Directory speakers={speakers ?? []} />
+            <Directory speakers={speakersWithTags} />
           )}
         </div>
       </main>

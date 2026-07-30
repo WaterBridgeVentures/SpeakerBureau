@@ -12,13 +12,14 @@ import { useActionRunner } from '@/app/admin/_components/useActionRunner';
 import { SpeakerSummary } from '@/app/admin/_components/SpeakerSummary';
 import { StatusBadge } from '@/app/admin/_components/StatusBadge';
 import { VerifiedBadge } from '@/app/speakers/_components/Badges';
+import { TagCheckboxes } from '@/app/_components/TagCheckboxes';
 import {
-  DOMAIN_SPECIALITIES,
-  INDUSTRY_SPECIALITIES,
+  DOMAINS,
+  INDUSTRIES,
   SPEAKING_FORMATS,
   SPEAKING_FORMAT_LABELS,
 } from '@/lib/constants';
-import type { Speaker, SpeakerStatus } from '@/lib/database.types';
+import type { SpeakerStatus, SpeakerWithTags } from '@/lib/database.types';
 
 const SPEAKER_STATUSES: SpeakerStatus[] = [
   'pending',
@@ -30,7 +31,7 @@ const SPEAKER_STATUSES: SpeakerStatus[] = [
 const inputCls =
   'w-full rounded-md border border-wbv-slate/40 px-3 py-2 text-sm text-wbv-secondary placeholder-gray-400 focus:border-wbv-accent focus:outline-none focus:ring-1 focus:ring-wbv-accent';
 
-export function SpeakerEditor({ speaker }: { speaker: Speaker }) {
+export function SpeakerEditor({ speaker }: { speaker: SpeakerWithTags }) {
   const [editing, setEditing] = useState(false);
   const { pending, error, run } = useActionRunner();
 
@@ -143,36 +144,26 @@ export function SpeakerEditor({ speaker }: { speaker: Speaker }) {
               className={inputCls}
             />
           </label>
-          <label className="text-sm">
-            <span className="mb-1 block text-gray-600">Industry speciality</span>
-            <select
-              name="industry_speciality"
-              defaultValue={speaker.industry_speciality ?? ''}
-              className={inputCls}
-            >
-              <option value="">— none —</option>
-              {INDUSTRY_SPECIALITIES.map((v) => (
-                <option key={v} value={v}>
-                  {v}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="text-sm">
-            <span className="mb-1 block text-gray-600">Domain speciality</span>
-            <select
-              name="domain_speciality"
-              defaultValue={speaker.domain_speciality ?? ''}
-              className={inputCls}
-            >
-              <option value="">— none —</option>
-              {DOMAIN_SPECIALITIES.map((v) => (
-                <option key={v} value={v}>
-                  {v}
-                </option>
-              ))}
-            </select>
-          </label>
+          <div className="sm:col-span-2">
+            <TagCheckboxes
+              legend="Industries"
+              name="industries"
+              otherName="industry_other_text"
+              options={INDUSTRIES}
+              defaultSelected={speaker.industries}
+              defaultOtherText={speaker.industry_other_text ?? ''}
+            />
+          </div>
+          <div className="sm:col-span-2">
+            <TagCheckboxes
+              legend="Domains"
+              name="domains"
+              otherName="domain_other_text"
+              options={DOMAINS}
+              defaultSelected={speaker.domains}
+              defaultOtherText={speaker.domain_other_text ?? ''}
+            />
+          </div>
           <label className="text-sm">
             <span className="mb-1 block text-gray-600">Location (city)</span>
             <input

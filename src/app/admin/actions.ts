@@ -9,18 +9,35 @@ import { sendNominationApproved, sendWarmIntro } from '@/lib/email';
 import { requireAdmin, requireSuperAdmin } from '@/lib/dal';
 import {
   ADMIN_ROLES,
-  DOMAIN_SPECIALITIES,
-  INDUSTRY_SPECIALITIES,
+  DOMAINS,
+  INDUSTRIES,
+  OTHERS,
   SPEAKING_FORMATS,
 } from '@/lib/constants';
 import type {
   AdminRole,
-  DomainSpeciality,
-  IndustrySpeciality,
   IntroRequestStatus,
   SpeakerStatus,
   SpeakingFormat,
 } from '@/lib/database.types';
+
+// Keep only recognised values from a checkbox group, de-duplicated.
+function cleanSelection(
+  raw: FormDataEntryValue[],
+  allowed: readonly string[]
+): string[] {
+  const set = new Set(allowed);
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const v of raw) {
+    const s = String(v);
+    if (set.has(s) && !seen.has(s)) {
+      seen.add(s);
+      out.push(s);
+    }
+  }
+  return out;
+}
 
 export type ActionResult = {
   ok?: true;
@@ -140,10 +157,17 @@ export async function updateSpeaker(
 ): Promise<ActionResult> {
   await requireSuperAdmin();
 
-  const industry = String(formData.get('industry_speciality') ?? '');
-  const domain = String(formData.get('domain_speciality') ?? '');
   const format = String(formData.get('in_person_or_virtual') ?? '');
   const email = String(formData.get('email') ?? '').trim();
+
+  const industries = cleanSelection(formData.getAll('industries'), INDUSTRIES);
+  const domains = cleanSelection(formData.getAll('domains'), DOMAINS);
+  const industryOther = industries.includes(OTHERS)
+    ? String(formData.get('industry_other_text') ?? '').trim()
+    : '';
+  const domainOther = domains.includes(OTHERS)
+    ? String(formData.get('domain_other_text') ?? '').trim()
+    : '';
 
   const patch = {
     name: String(formData.get('name') ?? '').trim(),
@@ -152,12 +176,8 @@ export async function updateSpeaker(
     bio: String(formData.get('bio') ?? '').trim() || null,
     email: email || null,
     location: String(formData.get('location') ?? '').trim() || null,
-    industry_speciality: (INDUSTRY_SPECIALITIES as string[]).includes(industry)
-      ? (industry as IndustrySpeciality)
-      : null,
-    domain_speciality: (DOMAIN_SPECIALITIES as string[]).includes(domain)
-      ? (domain as DomainSpeciality)
-      : null,
+    industry_other_text: industryOther || null,
+    domain_other_text: domainOther || null,
     in_person_or_virtual: (SPEAKING_FORMATS as string[]).includes(format)
       ? (format as SpeakingFormat)
       : null,
@@ -169,16 +189,39 @@ export async function updateSpeaker(
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return { error: 'Enter a valid email, or leave it blank.' };
   }
+  if (industries.includes(OTHERS) && !industryOther) {
+    return { error: 'Specify the “Other” industry, or untick Others.' };
+  }
+  if (domains.includes(OTHERS) && !domainOther) {
+    return { error: 'Specify the “Other” domain, or untick Others.' };
+  }
 
   // Service role (already super_admin-gated above) so the write covers the
-  // private email column without depending on the authenticated role's grants.
+  // private email column and the join tables regardless of the caller's grants.
   const svc = createAdminClient();
   const { error } = await svc.from('speakers').update(patch).eq('id', id);
   if (error) return { error: error.message };
 
+  // Replace the speaker's industry/domain join rows with the new selection.
+  await svc.from('speaker_industries').delete().eq('speaker_id', id);
+  await svc.from('speaker_domains').delete().eq('speaker_id', id);
+  if (industries.length) {
+    const { error: e } = await svc
+      .from('speaker_industries')
+      .insert(industries.map((industry) => ({ speaker_id: id, industry })));
+    if (e) return { error: e.message };
+  }
+  if (domains.length) {
+    const { error: e } = await svc
+      .from('speaker_domains')
+      .insert(domains.map((domain) => ({ speaker_id: id, domain })));
+    if (e) return { error: e.message };
+  }
+
   revalidatePath('/admin/speakers');
   revalidatePath('/admin/nominations');
   revalidatePath('/speakers');
+  revalidatePath(`/speakers/${id}`);
   return { ok: true };
 }
 

@@ -3,8 +3,12 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import { createClient } from '@/lib/supabase/server';
-import { SPEAKER_COLUMNS } from '@/lib/constants';
-import { SPEAKING_FORMAT_LABELS } from '@/lib/constants';
+import {
+  resolveTagLabels,
+  SPEAKER_COLUMNS,
+  SPEAKING_FORMAT_LABELS,
+} from '@/lib/constants';
+import { attachTagsOne } from '@/lib/speaker-tags';
 import { Avatar } from '@/app/speakers/_components/Avatar';
 import { SpecialityTags } from '@/app/speakers/_components/SpecialityTags';
 import {
@@ -49,8 +53,11 @@ export async function generateMetadata({
 
 export default async function SpeakerProfilePage({ params }: PageParams) {
   const { id } = await params;
-  const speaker = await getApprovedSpeaker(id);
-  if (!speaker) notFound();
+  const base = await getApprovedSpeaker(id);
+  if (!base) notFound();
+
+  const supabase = await createClient();
+  const speaker = await attachTagsOne(supabase, base);
 
   return (
     <div className="flex min-h-screen flex-col bg-wbv-ivory">
@@ -90,8 +97,14 @@ export default async function SpeakerProfilePage({ params }: PageParams) {
               </div>
               <div className="mt-3 flex justify-center sm:justify-start">
                 <SpecialityTags
-                  industry={speaker.industry_speciality}
-                  domain={speaker.domain_speciality}
+                  industries={resolveTagLabels(
+                    speaker.industries,
+                    speaker.industry_other_text
+                  )}
+                  domains={resolveTagLabels(
+                    speaker.domains,
+                    speaker.domain_other_text
+                  )}
                 />
               </div>
             </div>

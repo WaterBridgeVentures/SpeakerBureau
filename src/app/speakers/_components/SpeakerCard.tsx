@@ -3,10 +3,10 @@ import Link from 'next/link';
 import { Avatar } from '@/app/speakers/_components/Avatar';
 import { SpecialityTags } from '@/app/speakers/_components/SpecialityTags';
 import { FeaturedBadge, VerifiedBadge } from '@/app/speakers/_components/Badges';
-import { SPEAKING_FORMAT_LABELS } from '@/lib/constants';
-import type { Speaker } from '@/lib/database.types';
+import { resolveTagLabels, SPEAKING_FORMAT_LABELS } from '@/lib/constants';
+import type { SpeakerWithTags } from '@/lib/database.types';
 
-export function SpeakerCard({ speaker }: { speaker: Speaker }) {
+export function SpeakerCard({ speaker }: { speaker: SpeakerWithTags }) {
   return (
     <Link
       href={`/speakers/${speaker.id}`}
@@ -34,8 +34,8 @@ export function SpeakerCard({ speaker }: { speaker: Speaker }) {
 
       <div className="mt-3">
         <SpecialityTags
-          industry={speaker.industry_speciality}
-          domain={speaker.domain_speciality}
+          industries={resolveTagLabels(speaker.industries, speaker.industry_other_text)}
+          domains={resolveTagLabels(speaker.domains, speaker.domain_other_text)}
         />
       </div>
 

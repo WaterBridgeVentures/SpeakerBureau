@@ -10,31 +10,6 @@ export type IntroRequestStatus =
   | 'declined'
   | 'introduced';
 
-export type DomainSpeciality =
-  | 'Sales'
-  | 'Marketing'
-  | 'Finance'
-  | 'GTM'
-  | 'Product'
-  | 'Operations'
-  | 'HR'
-  | 'Strategy'
-  | 'Fundraising'
-  | 'Other';
-
-export type IndustrySpeciality =
-  | 'Technology'
-  | 'Financial Services'
-  | 'Healthcare'
-  | 'Consumer/Retail'
-  | 'Media & Entertainment'
-  | 'Education'
-  | 'Manufacturing'
-  | 'Real Estate'
-  | 'Public Sector/Policy'
-  | 'Non-profit/Social Impact'
-  | 'Other';
-
 export type AdminRole = 'super_admin' | 'approver';
 
 export type SpeakingFormat = 'in_person' | 'virtual' | 'both';
@@ -44,6 +19,14 @@ export type Speaker = Database['public']['Tables']['speakers']['Row'];
 export type IntroRequest = Database['public']['Tables']['intro_requests']['Row'];
 export type Supporter = Database['public']['Tables']['supporters']['Row'];
 export type AdminUser = Database['public']['Tables']['admin_users']['Row'];
+
+// A speaker plus its multi-select specialities (from the join tables). Values
+// are canonical labels ("Others" stays as-is; resolve to *_other_text for
+// display, but keep "Others" for filtering).
+export type SpeakerWithTags = Speaker & {
+  industries: string[];
+  domains: string[];
+};
 
 export interface Database {
   public: {
@@ -61,8 +44,6 @@ export interface Database {
           designation: string;
           linkedin_url: string;
           photo_url: string | null;
-          industry_speciality: IndustrySpeciality | null;
-          domain_speciality: DomainSpeciality | null;
           bio: string | null;
           status: SpeakerStatus;
           created_at: string;
@@ -71,6 +52,8 @@ export interface Database {
           in_person_or_virtual: SpeakingFormat | null;
           featured: boolean;
           paused: boolean;
+          industry_other_text: string | null;
+          domain_other_text: string | null;
           // Private: not readable by anon/authenticated (column-level grants).
           // Optional here so public column-selects still satisfy `Speaker`.
           email?: string | null;
@@ -81,8 +64,6 @@ export interface Database {
           designation: string;
           linkedin_url: string;
           photo_url?: string | null;
-          industry_speciality?: IndustrySpeciality | null;
-          domain_speciality?: DomainSpeciality | null;
           bio?: string | null;
           status?: SpeakerStatus;
           created_at?: string;
@@ -91,6 +72,8 @@ export interface Database {
           in_person_or_virtual?: SpeakingFormat | null;
           featured?: boolean;
           paused?: boolean;
+          industry_other_text?: string | null;
+          domain_other_text?: string | null;
           email?: string | null;
         };
         Update: {
@@ -99,8 +82,6 @@ export interface Database {
           designation?: string;
           linkedin_url?: string;
           photo_url?: string | null;
-          industry_speciality?: IndustrySpeciality | null;
-          domain_speciality?: DomainSpeciality | null;
           bio?: string | null;
           status?: SpeakerStatus;
           created_at?: string;
@@ -109,8 +90,22 @@ export interface Database {
           in_person_or_virtual?: SpeakingFormat | null;
           featured?: boolean;
           paused?: boolean;
+          industry_other_text?: string | null;
+          domain_other_text?: string | null;
           email?: string | null;
         };
+        Relationships: [];
+      };
+      speaker_industries: {
+        Row: { speaker_id: string; industry: string };
+        Insert: { speaker_id: string; industry: string };
+        Update: { speaker_id?: string; industry?: string };
+        Relationships: [];
+      };
+      speaker_domains: {
+        Row: { speaker_id: string; domain: string };
+        Insert: { speaker_id: string; domain: string };
+        Update: { speaker_id?: string; domain?: string };
         Relationships: [];
       };
       intro_requests: {
@@ -201,8 +196,6 @@ export interface Database {
     Enums: {
       speaker_status: SpeakerStatus;
       intro_request_status: IntroRequestStatus;
-      domain_speciality: DomainSpeciality;
-      industry_speciality: IndustrySpeciality;
       admin_role: AdminRole;
     };
     Functions: {

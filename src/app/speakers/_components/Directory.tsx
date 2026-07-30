@@ -5,19 +5,19 @@ import { useMemo, useState } from 'react';
 import { SpeakerCard } from '@/app/speakers/_components/SpeakerCard';
 import { MultiSelect } from '@/app/speakers/_components/MultiSelect';
 import {
-  DOMAIN_SPECIALITIES,
-  INDUSTRY_SPECIALITIES,
+  DOMAINS,
+  INDUSTRIES,
   SPEAKING_FORMATS,
   SPEAKING_FORMAT_LABELS,
 } from '@/lib/constants';
-import type { Speaker } from '@/lib/database.types';
+import type { SpeakerWithTags } from '@/lib/database.types';
 
 const controlCls =
   'w-full rounded-md border border-wbv-slate/40 bg-white px-3 py-2 text-sm text-wbv-secondary placeholder-gray-400 focus:border-wbv-accent focus:outline-none focus:ring-1 focus:ring-wbv-accent';
 
 type SortKey = 'alpha' | 'recent' | 'featured';
 
-export function Directory({ speakers }: { speakers: Speaker[] }) {
+export function Directory({ speakers }: { speakers: SpeakerWithTags[] }) {
   const [query, setQuery] = useState('');
   const [industries, setIndustries] = useState<string[]>([]);
   const [domains, setDomains] = useState<string[]>([]);
@@ -41,16 +41,18 @@ export function Directory({ speakers }: { speakers: Speaker[] }) {
         const haystack = `${s.name} ${s.designation} ${s.bio ?? ''}`.toLowerCase();
         if (!haystack.includes(needle)) return false;
       }
-      if (industries.length && !industries.includes(s.industry_speciality ?? ''))
+      // Match speakers who have ANY of the selected industries / domains.
+      if (industries.length && !s.industries.some((i) => industries.includes(i)))
         return false;
-      if (domains.length && !domains.includes(s.domain_speciality ?? ''))
+      if (domains.length && !s.domains.some((d) => domains.includes(d)))
         return false;
       if (location && s.location !== location) return false;
       if (format && s.in_person_or_virtual !== format) return false;
       return true;
     });
 
-    const byName = (a: Speaker, b: Speaker) => a.name.localeCompare(b.name);
+    const byName = (a: SpeakerWithTags, b: SpeakerWithTags) =>
+      a.name.localeCompare(b.name);
     if (sort === 'recent') {
       result.sort((a, b) => b.created_at.localeCompare(a.created_at));
     } else if (sort === 'featured') {
@@ -92,13 +94,13 @@ export function Directory({ speakers }: { speakers: Speaker[] }) {
       <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <MultiSelect
           label="Industries"
-          options={INDUSTRY_SPECIALITIES}
+          options={INDUSTRIES}
           selected={industries}
           onChange={setIndustries}
         />
         <MultiSelect
           label="Domains"
-          options={DOMAIN_SPECIALITIES}
+          options={DOMAINS}
           selected={domains}
           onChange={setDomains}
         />

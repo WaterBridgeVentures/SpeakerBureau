@@ -1,6 +1,7 @@
 import { requireSuperAdmin } from '@/lib/dal';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { SPEAKER_COLUMNS } from '@/lib/constants';
+import { attachTags } from '@/lib/speaker-tags';
 import { SpeakerEditor } from '@/app/admin/_components/SpeakerEditor';
 
 export default async function AllSpeakersPage() {
@@ -16,7 +17,7 @@ export default async function AllSpeakersPage() {
   if (error) {
     return <p className="text-sm text-red-600">Failed to load: {error.message}</p>;
   }
-  const speakers = data ?? [];
+  const speakers = await attachTags(svc, data ?? []);
 
   return (
     <section>
