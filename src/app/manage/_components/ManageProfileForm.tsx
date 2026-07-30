@@ -103,7 +103,7 @@ export function ManageProfileForm({
             aria-pressed={speaker.paused}
             className={
               speaker.paused
-                ? 'shrink-0 rounded-md bg-wbv-primary px-4 py-2 text-sm font-medium text-wbv-black hover:brightness-95 disabled:opacity-50'
+                ? 'shrink-0 rounded-md bg-wbv-primary px-4 py-2 text-sm font-medium text-white hover:brightness-95 disabled:opacity-50'
                 : 'shrink-0 rounded-md border border-wbv-slate/40 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-wbv-ivory disabled:opacity-50'
             }
           >
@@ -197,7 +197,7 @@ export function ManageProfileForm({
         <button
           type="submit"
           disabled={pending}
-          className="inline-flex items-center justify-center rounded-md bg-wbv-primary px-4 py-2.5 text-sm font-medium text-wbv-black hover:brightness-95 disabled:opacity-50"
+          className="inline-flex items-center justify-center rounded-md bg-wbv-primary px-4 py-2.5 text-sm font-medium text-white hover:brightness-95 disabled:opacity-50"
         >
           {pending ? 'Saving…' : 'Save changes'}
         </button>

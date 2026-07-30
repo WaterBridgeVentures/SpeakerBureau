@@ -1,14 +1,16 @@
 @import "tailwindcss";
 
-/* WaterBridge Ventures brand tokens — the six brand colors as CSS variables so
-   they stay consistent site-wide. Adjust here and the whole site follows. */
+/* India VC&PE Women's Speaker Bureau brand tokens — palette derived from the
+   bureau logo (red mark + near-black wordmark on warm light gray). The six
+   variables keep the site consistent; adjust here and the whole site follows.
+   (Variable names are kept as `--wbv-*` so existing utility classes still map.) */
 :root {
-  --wbv-primary: #ffb400; /* Solar Amber — CTAs, key highlights */
-  --wbv-secondary: #061a4a; /* Midnight Indigo — header/nav, headings */
-  --wbv-accent: #1ac6ff; /* Electric Aqua — links */
-  --wbv-slate: #697d82; /* Slate Mist — subtle borders, muted UI */
-  --wbv-ivory: #f7f6f3; /* Ivory Mist — page background */
-  --wbv-black: #1d1d1d; /* Carbon Black — body text */
+  --wbv-primary: #dd2b0f; /* Brand Red — CTAs, key highlights (AA on white) */
+  --wbv-secondary: #201e1d; /* Ink — near-black for headings + dark UI */
+  --wbv-accent: #dd2b0f; /* Brand Red — links */
+  --wbv-slate: #9b9797; /* Warm neutral — subtle borders, muted UI */
+  --wbv-ivory: #f3f2f2; /* Warm light gray — page background */
+  --wbv-black: #201e1d; /* Ink — body text */
 
   --font-heading: "Concrette", Georgia, "Times New Roman", serif;
   --font-body: "Sofia Pro", Calibri, "Helvetica Neue", Arial, sans-serif;

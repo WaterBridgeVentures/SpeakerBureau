@@ -11,12 +11,12 @@ export function SpecialityTags({
   return (
     <div className="flex flex-wrap gap-1.5">
       {industry && (
-        <span className="rounded-full bg-sky-100 px-2 py-0.5 text-xs font-medium text-sky-800">
+        <span className="rounded-full bg-wbv-slate/20 px-2 py-0.5 text-xs font-medium text-wbv-secondary">
           {industry}
         </span>
       )}
       {domain && (
-        <span className="rounded-full bg-violet-100 px-2 py-0.5 text-xs font-medium text-violet-800">
+        <span className="rounded-full bg-wbv-primary/15 px-2 py-0.5 text-xs font-medium text-wbv-secondary">
           {domain}
         </span>
       )}

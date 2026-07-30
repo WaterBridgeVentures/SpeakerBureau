@@ -40,7 +40,7 @@ export default async function SpeakersPage() {
           </div>
           <Link
             href="/nominate"
-            className="inline-flex shrink-0 items-center justify-center rounded-md bg-wbv-primary px-4 py-2 text-sm font-medium text-wbv-black hover:brightness-95"
+            className="inline-flex shrink-0 items-center justify-center rounded-md bg-wbv-primary px-4 py-2 text-sm font-medium text-white hover:brightness-95"
           >
             Nominate yourself
           </Link>

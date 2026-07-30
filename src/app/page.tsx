@@ -20,7 +20,7 @@ export default function Home() {
         <div className="flex flex-wrap items-center justify-center gap-3">
           <Link
             href="/speakers"
-            className="rounded-md bg-wbv-primary px-4 py-2 text-sm font-medium text-wbv-black hover:brightness-95"
+            className="rounded-md bg-wbv-primary px-4 py-2 text-sm font-medium text-white hover:brightness-95"
           >
             Browse directory
           </Link>

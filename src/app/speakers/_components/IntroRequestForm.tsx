@@ -45,7 +45,7 @@ export function IntroRequestForm({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="w-full rounded-md bg-wbv-primary px-4 py-2.5 text-sm font-medium text-wbv-black hover:brightness-95"
+        className="w-full rounded-md bg-wbv-primary px-4 py-2.5 text-sm font-medium text-white hover:brightness-95"
       >
         Request an Introduction
       </button>
@@ -187,7 +187,7 @@ export function IntroRequestForm({
         <button
           type="submit"
           disabled={pending}
-          className="flex-1 rounded-md bg-wbv-primary px-4 py-2.5 text-sm font-medium text-wbv-black hover:brightness-95 disabled:opacity-50"
+          className="flex-1 rounded-md bg-wbv-primary px-4 py-2.5 text-sm font-medium text-white hover:brightness-95 disabled:opacity-50"
         >
           {pending ? 'Sending…' : 'Send request'}
         </button>

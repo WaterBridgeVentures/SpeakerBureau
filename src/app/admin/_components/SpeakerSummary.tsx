@@ -36,12 +36,12 @@ export function SpeakerSummary({ speaker }: { speaker: Speaker }) {
         <p className="text-sm text-gray-600">{speaker.designation}</p>
         <div className="mt-1.5 flex flex-wrap gap-1.5">
           {speaker.industry_speciality && (
-            <span className="rounded-full bg-sky-100 px-2 py-0.5 text-xs text-sky-800">
+            <span className="rounded-full bg-wbv-slate/20 px-2 py-0.5 text-xs text-wbv-secondary">
               {speaker.industry_speciality}
             </span>
           )}
           {speaker.domain_speciality && (
-            <span className="rounded-full bg-violet-100 px-2 py-0.5 text-xs text-violet-800">
+            <span className="rounded-full bg-wbv-primary/15 px-2 py-0.5 text-xs text-wbv-secondary">
               {speaker.domain_speciality}
             </span>
           )}

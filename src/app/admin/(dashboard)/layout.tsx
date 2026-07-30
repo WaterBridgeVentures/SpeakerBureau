@@ -25,11 +25,14 @@ export default async function DashboardLayout({
       <header className="bg-wbv-secondary">
         <div className="mx-auto flex max-w-5xl flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-4">
-            <Link href="/admin" aria-label="WaterBridge Ventures — admin home">
+            <Link
+              href="/admin"
+              aria-label="India VC&PE Women’s Speaker Bureau — admin home"
+            >
               <img
-                src="/wbv-logo.png"
-                alt="WaterBridge Ventures"
-                className="h-auto max-w-[150px]"
+                src="/bureau-mark-dark.png"
+                alt="India VC&PE Women’s Speaker Bureau"
+                className="h-9 w-auto"
               />
             </Link>
             <div>

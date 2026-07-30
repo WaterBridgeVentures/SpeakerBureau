@@ -275,7 +275,7 @@ export function NominateForm({
         <button
           type="submit"
           disabled={pending}
-          className="inline-flex w-full items-center justify-center rounded-md bg-wbv-primary px-4 py-2.5 text-sm font-medium text-wbv-black hover:brightness-95 disabled:opacity-50"
+          className="inline-flex w-full items-center justify-center rounded-md bg-wbv-primary px-4 py-2.5 text-sm font-medium text-white hover:brightness-95 disabled:opacity-50"
         >
           {pending ? 'Submitting…' : 'Submit nomination'}
         </button>
