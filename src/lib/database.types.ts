@@ -70,6 +70,7 @@ export interface Database {
           location: string | null;
           in_person_or_virtual: SpeakingFormat | null;
           featured: boolean;
+          paused: boolean;
           // Private: not readable by anon/authenticated (column-level grants).
           // Optional here so public column-selects still satisfy `Speaker`.
           email?: string | null;
@@ -89,6 +90,7 @@ export interface Database {
           location?: string | null;
           in_person_or_virtual?: SpeakingFormat | null;
           featured?: boolean;
+          paused?: boolean;
           email?: string | null;
         };
         Update: {
@@ -106,6 +108,7 @@ export interface Database {
           location?: string | null;
           in_person_or_virtual?: SpeakingFormat | null;
           featured?: boolean;
+          paused?: boolean;
           email?: string | null;
         };
         Relationships: [];
@@ -120,6 +123,9 @@ export interface Database {
           reason: string | null;
           status: IntroRequestStatus;
           created_at: string;
+          event_name: string | null;
+          event_month: string | null;
+          audience_size: string | null;
         };
         Insert: {
           id?: string;
@@ -130,6 +136,9 @@ export interface Database {
           reason?: string | null;
           status?: IntroRequestStatus;
           created_at?: string;
+          event_name?: string | null;
+          event_month?: string | null;
+          audience_size?: string | null;
         };
         Update: {
           id?: string;
@@ -140,6 +149,9 @@ export interface Database {
           reason?: string | null;
           status?: IntroRequestStatus;
           created_at?: string;
+          event_name?: string | null;
+          event_month?: string | null;
+          audience_size?: string | null;
         };
         Relationships: [];
       };

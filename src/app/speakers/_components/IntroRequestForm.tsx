@@ -28,11 +28,13 @@ export function IntroRequestForm({
     return (
       <div className="rounded-md border border-emerald-200 bg-emerald-50 p-4 text-center">
         <p className="text-sm font-semibold text-emerald-900">
-          Request sent!
+          Request received — pending review
         </p>
         <p className="mt-1 text-sm text-emerald-800">
-          We’ll review your request and be in touch if {speakerName} is happy to
-          connect.
+          Thanks! Your request is now with the bureau for review. If{' '}
+          {speakerName} is happy to connect, we’ll send a warm introduction to
+          your email. A confirmation is on its way to your inbox — no further
+          action needed.
         </p>
       </div>
     );
@@ -116,6 +118,50 @@ export function IntroRequestForm({
           placeholder="A sentence or two of context for the introduction."
         />
       </div>
+
+      <fieldset className="space-y-4 rounded-md border border-wbv-slate/30 bg-wbv-ivory/60 p-3">
+        <legend className="px-1 text-xs font-medium text-gray-500">
+          Event details <span className="text-gray-400">(optional)</span>
+        </legend>
+
+        <div>
+          <label htmlFor="event_name" className={labelCls}>
+            Event name
+          </label>
+          <input
+            id="event_name"
+            name="event_name"
+            className={inputCls}
+            placeholder="e.g. FinTech India Summit"
+          />
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label htmlFor="event_month" className={labelCls}>
+              Event month
+            </label>
+            <input
+              id="event_month"
+              name="event_month"
+              type="month"
+              className={inputCls}
+            />
+          </div>
+          <div>
+            <label htmlFor="audience_size" className={labelCls}>
+              Audience size
+            </label>
+            <input
+              id="audience_size"
+              name="audience_size"
+              inputMode="numeric"
+              className={inputCls}
+              placeholder="e.g. 150"
+            />
+          </div>
+        </div>
+      </fieldset>
 
       <label className="flex items-start gap-2 text-xs text-gray-600">
         <input

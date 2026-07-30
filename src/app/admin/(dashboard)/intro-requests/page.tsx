@@ -82,6 +82,36 @@ export default async function IntroRequestsPage() {
                       “{req.reason}”
                     </p>
                   )}
+                  {(req.event_name ||
+                    req.event_month ||
+                    req.audience_size) && (
+                    <dl className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500">
+                      {req.event_name && (
+                        <div>
+                          <dt className="inline font-medium text-gray-600">
+                            Event:{' '}
+                          </dt>
+                          <dd className="inline">{req.event_name}</dd>
+                        </div>
+                      )}
+                      {req.event_month && (
+                        <div>
+                          <dt className="inline font-medium text-gray-600">
+                            Month:{' '}
+                          </dt>
+                          <dd className="inline">{req.event_month}</dd>
+                        </div>
+                      )}
+                      {req.audience_size && (
+                        <div>
+                          <dt className="inline font-medium text-gray-600">
+                            Audience:{' '}
+                          </dt>
+                          <dd className="inline">{req.audience_size}</dd>
+                        </div>
+                      )}
+                    </dl>
+                  )}
                 </div>
                 <IntroRequestActions requestId={req.id} />
               </li>

@@ -49,7 +49,7 @@ export const SPEAKING_FORMAT_LABELS: Record<SpeakingFormat, string> = {
 // `email`). Use this instead of '*' anywhere a non-service-role client reads
 // speakers, since selecting `email` there is denied by column grants.
 export const SPEAKER_COLUMNS =
-  'id, name, designation, linkedin_url, photo_url, industry_speciality, domain_speciality, bio, status, created_at, verified, location, in_person_or_virtual, featured';
+  'id, name, designation, linkedin_url, photo_url, industry_speciality, domain_speciality, bio, status, created_at, verified, location, in_person_or_virtual, featured, paused';
 
 export const ADMIN_ROLES: AdminRole[] = ['super_admin', 'approver'];
 

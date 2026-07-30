@@ -201,6 +201,23 @@ export async function toggleFeatured(
   return { ok: true };
 }
 
+// Pause/unpause a speaker (super_admin). Speakers can also do this themselves
+// from /manage; this lets an admin unpause on their behalf if needed.
+export async function togglePaused(
+  id: string,
+  paused: boolean
+): Promise<ActionResult> {
+  await requireSuperAdmin();
+
+  const svc = createAdminClient();
+  const { error } = await svc.from('speakers').update({ paused }).eq('id', id);
+  if (error) return { error: error.message };
+
+  revalidatePath('/admin/speakers');
+  revalidatePath('/speakers');
+  return { ok: true };
+}
+
 // ---------------------------------------------------------------------------
 // Intro requests — status transitions (both roles, DB-enforced)
 // ---------------------------------------------------------------------------

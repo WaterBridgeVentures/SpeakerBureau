@@ -30,6 +30,7 @@ async function getApprovedSpeaker(id: string) {
     .select(SPEAKER_COLUMNS)
     .eq('id', id)
     .eq('status', 'approved')
+    .eq('paused', false)
     .maybeSingle();
   return data;
 }

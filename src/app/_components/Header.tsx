@@ -22,6 +22,9 @@ export function Header() {
           <Link href="/nominate" className="text-white/80 hover:text-white">
             Nominate
           </Link>
+          <Link href="/manage" className="text-white/80 hover:text-white">
+            Manage profile
+          </Link>
         </nav>
       </div>
     </header>

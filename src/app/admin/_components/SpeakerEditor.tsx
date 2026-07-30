@@ -5,6 +5,7 @@ import { useState, type FormEvent } from 'react';
 import {
   setSpeakerStatus,
   toggleFeatured,
+  togglePaused,
   updateSpeaker,
 } from '@/app/admin/actions';
 import { useActionRunner } from '@/app/admin/_components/useActionRunner';
@@ -46,6 +47,11 @@ export function SpeakerEditor({ speaker }: { speaker: Speaker }) {
         <div className="flex flex-col items-stretch gap-2 sm:items-end">
           <div className="flex flex-wrap items-center gap-2 sm:justify-end">
             {speaker.verified && <VerifiedBadge />}
+            {speaker.paused && (
+              <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800">
+                Paused
+              </span>
+            )}
             <StatusBadge status={speaker.status} />
             <select
               aria-label="Change status"
@@ -80,6 +86,21 @@ export function SpeakerEditor({ speaker }: { speaker: Speaker }) {
               }
             >
               {speaker.featured ? '★ Featured' : '☆ Feature'}
+            </button>
+            <button
+              type="button"
+              disabled={pending}
+              aria-pressed={speaker.paused}
+              onClick={() =>
+                run(() => togglePaused(speaker.id, !speaker.paused))
+              }
+              className={
+                speaker.paused
+                  ? 'rounded-md border border-amber-300 bg-amber-100 px-3 py-1.5 text-sm font-medium text-amber-900 hover:brightness-95 disabled:opacity-50'
+                  : 'rounded-md border border-wbv-slate/40 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-wbv-ivory disabled:opacity-50'
+              }
+            >
+              {speaker.paused ? 'Unpause' : 'Pause'}
             </button>
             <button
               type="button"

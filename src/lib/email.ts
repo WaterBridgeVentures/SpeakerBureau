@@ -53,6 +53,38 @@ export function buildWarmIntroEmail(p: {
   return { subject, text, html: textToHtml(text) };
 }
 
+export function buildIntroRequestReceivedEmail(p: {
+  requesterName: string;
+  speakerName: string;
+}): { subject: string; text: string; html: string } {
+  const subject = `We’ve received your introduction request to ${p.speakerName}`;
+  const text =
+    `Hi ${p.requesterName},\n\n` +
+    `Thanks for your request to be introduced to ${p.speakerName} through the ` +
+    `Women's Speaker Bureau. It's now pending review.\n\n` +
+    `We review every request before making a warm introduction. If ` +
+    `${p.speakerName} is happy to connect, you'll receive an introduction ` +
+    `email — no further action is needed from you in the meantime.\n\n` +
+    `Best,\n${ADMIN_NAME}, Women's Speaker Bureau`;
+  return { subject, text, html: textToHtml(text) };
+}
+
+export function buildManageLinkEmail(p: {
+  name: string;
+  url: string;
+}): { subject: string; text: string; html: string } {
+  const subject = 'Sign in to manage your Women’s Speaker Bureau profile';
+  const text =
+    `Hi ${p.name},\n\n` +
+    `Use the link below to sign in and update your Women's Speaker Bureau ` +
+    `profile — your bio, photo, and location, or to pause your listing.\n\n` +
+    `${p.url}\n\n` +
+    `This link signs you in directly and will expire shortly. If you didn't ` +
+    `request it, you can safely ignore this email.\n\n` +
+    `Best,\n${ADMIN_NAME}, Women's Speaker Bureau`;
+  return { subject, text, html: textToHtml(text) };
+}
+
 export function buildNominationApprovedEmail(p: {
   name: string;
 }): { subject: string; text: string; html: string } {
@@ -118,6 +150,62 @@ export async function sendNominationApproved(p: {
   if (!resend) return { ok: false, error: 'RESEND_API_KEY is not configured.' };
 
   const { subject, text, html } = buildNominationApprovedEmail({ name: p.name });
+  const { error } = await resend.emails.send({
+    from: FROM,
+    to: p.email,
+    replyTo: ADMIN_EMAIL,
+    subject,
+    text,
+    html,
+  });
+  if (error) return { ok: false, error: error.message };
+  return { ok: true };
+}
+
+/**
+ * Acknowledgement to a requester that their intro request is pending review.
+ * Best-effort: a failure here must not block the request from being recorded.
+ */
+export async function sendIntroRequestReceived(p: {
+  requesterEmail: string;
+  requesterName: string;
+  speakerName: string;
+}): Promise<SendResult> {
+  const resend = getResend();
+  if (!resend) return { ok: false, error: 'RESEND_API_KEY is not configured.' };
+
+  const { subject, text, html } = buildIntroRequestReceivedEmail({
+    requesterName: p.requesterName,
+    speakerName: p.speakerName,
+  });
+  const { error } = await resend.emails.send({
+    from: FROM,
+    to: p.requesterEmail,
+    replyTo: ADMIN_EMAIL,
+    subject,
+    text,
+    html,
+  });
+  if (error) return { ok: false, error: error.message };
+  return { ok: true };
+}
+
+/**
+ * Passwordless sign-in link for a listed speaker to manage their own profile.
+ * The URL is a pre-generated Supabase magic link pointing at /auth/callback.
+ */
+export async function sendManageLink(p: {
+  email: string;
+  name: string;
+  url: string;
+}): Promise<SendResult> {
+  const resend = getResend();
+  if (!resend) return { ok: false, error: 'RESEND_API_KEY is not configured.' };
+
+  const { subject, text, html } = buildManageLinkEmail({
+    name: p.name,
+    url: p.url,
+  });
   const { error } = await resend.emails.send({
     from: FROM,
     to: p.email,

@@ -21,6 +21,7 @@ export default async function SpeakersPage() {
     .from('speakers')
     .select(SPEAKER_COLUMNS)
     .eq('status', 'approved')
+    .eq('paused', false)
     .order('name', { ascending: true });
 
   return (
