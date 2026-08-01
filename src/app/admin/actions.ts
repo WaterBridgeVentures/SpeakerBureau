@@ -315,6 +315,9 @@ export async function approveIntroRequest(id: string): Promise<ActionResult> {
     speakerName: speaker.name,
     speakerDesignation: speaker.designation,
     speakerEmail: speaker.email ?? null,
+    eventName: req.event_name,
+    eventDate: req.event_month,
+    audienceSize: req.audience_size,
   });
   if (!res.ok) {
     return { error: `Couldn’t send the introduction email: ${res.error}` };

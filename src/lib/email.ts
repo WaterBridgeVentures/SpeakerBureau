@@ -31,6 +31,32 @@ function textToHtml(text: string): string {
 // ---------------------------------------------------------------------------
 // Pure template builders (no side effects — unit-testable)
 // ---------------------------------------------------------------------------
+const MONTHS = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+// Render a "YYYY-MM" month value (from the request form's month picker) as
+// "September 2026"; anything else is passed through unchanged.
+function formatEventDate(value: string): string {
+  const m = /^(\d{4})-(\d{2})$/.exec(value.trim());
+  if (m) {
+    const idx = Number(m[2]) - 1;
+    if (idx >= 0 && idx < 12) return `${MONTHS[idx]} ${m[1]}`;
+  }
+  return value.trim();
+}
+
 export function buildWarmIntroEmail(p: {
   requesterName: string;
   requesterOrg: string | null;
@@ -38,17 +64,37 @@ export function buildWarmIntroEmail(p: {
   reason: string;
   speakerName: string;
   speakerDesignation: string;
+  eventName?: string | null;
+  eventDate?: string | null;
+  audienceSize?: string | null;
 }): { subject: string; text: string; html: string } {
   const org = p.requesterOrg?.trim() || 'independent';
   const subject = `Introduction: ${p.requesterName} <> ${p.speakerName}`;
+
+  // Event context — include only the lines the requester actually provided.
+  const eventLines = [
+    p.eventName?.trim() ? `Event: ${p.eventName.trim()}` : null,
+    p.eventDate?.trim() ? `Date: ${formatEventDate(p.eventDate)}` : null,
+    p.audienceSize?.trim() ? `Expected audience: ${p.audienceSize.trim()}` : null,
+  ].filter((line): line is string => line !== null);
+  const eventBlock = eventLines.length ? `${eventLines.join('\n')}\n\n` : '';
+
+  const remarks = p.reason?.trim()
+    ? `“${p.reason.trim()}”`
+    : '(No remarks were submitted.)';
+
   const text =
     `Hi ${p.requesterName} and ${p.speakerName},\n\n` +
-    `Happy to make this introduction. ${p.requesterName} (${org}) would ` +
-    `like to connect with ${p.speakerName} (${p.speakerDesignation}):\n\n` +
-    `${p.reason}\n\n` +
-    `${p.speakerName}, you can reach ${p.requesterName} directly at ` +
-    `${p.requesterEmail} — replying to this email will go straight to them.\n\n` +
-    `I'll let you two take it from here!\n\n` +
+    `${p.requesterName}, thank you for using the Women's Speaker Bureau to ` +
+    `find a speaker — great to see the directory being put to use! I'm happy ` +
+    `to make this introduction.\n\n` +
+    `${p.requesterName} (${org}) would like to connect with ${p.speakerName} ` +
+    `(${p.speakerDesignation}) for the following:\n\n` +
+    eventBlock +
+    `Remarks (as submitted by ${p.requesterName} on the request form):\n` +
+    `${remarks}\n\n` +
+    `I'll let you two take it from here — ${p.requesterName}, I've cc'd you ` +
+    `both so you can connect directly.\n\n` +
     `Best,\n${ADMIN_NAME}, Women's Speaker Bureau`;
   return { subject, text, html: textToHtml(text) };
 }
@@ -114,6 +160,9 @@ export async function sendWarmIntro(p: {
   speakerName: string;
   speakerDesignation: string;
   speakerEmail: string | null;
+  eventName?: string | null;
+  eventDate?: string | null;
+  audienceSize?: string | null;
 }): Promise<SendResult> {
   const resend = getResend();
   if (!resend) return { ok: false, error: 'RESEND_API_KEY is not configured.' };
