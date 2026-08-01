@@ -27,11 +27,11 @@ export default async function DashboardLayout({
           <div className="flex items-center gap-4">
             <Link
               href="/admin"
-              aria-label="India VC&PE Women’s Speaker Collective — admin home"
+              aria-label="Women’s Speaker Collective — admin home"
             >
               <img
                 src="/bureau-mark-dark.png"
-                alt="India VC&PE Women’s Speaker Collective"
+                alt="Women’s Speaker Collective"
                 className="h-9 w-auto"
               />
             </Link>
