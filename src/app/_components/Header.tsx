@@ -9,7 +9,7 @@ export function Header() {
           <img
             src="/bureau-logo.png"
             alt="Women’s Speaker Collective"
-            className="h-9 w-auto sm:h-10"
+            className="h-12 w-auto sm:h-14"
           />
         </Link>
         <nav
