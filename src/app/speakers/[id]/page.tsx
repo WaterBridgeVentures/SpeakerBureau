@@ -44,9 +44,9 @@ export async function generateMetadata({
 }: PageParams): Promise<Metadata> {
   const { id } = await params;
   const speaker = await getApprovedSpeaker(id);
-  if (!speaker) return { title: 'Speaker — Women’s Speaker Bureau' };
+  if (!speaker) return { title: 'Speaker — Women’s Speaker Collective' };
   return {
-    title: `${speaker.name} — Women’s Speaker Bureau`,
+    title: `${speaker.name} — Women’s Speaker Collective`,
     description: speaker.designation,
   };
 }

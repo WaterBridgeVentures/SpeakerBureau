@@ -8,7 +8,7 @@ import { SignOutButton } from '@/app/admin/_components/SignOutButton';
 import { ToastProvider } from '@/app/admin/_components/Toast';
 
 export const metadata: Metadata = {
-  title: 'Admin — Women’s Speaker Bureau',
+  title: 'Admin — Women’s Speaker Collective',
 };
 
 export default async function DashboardLayout({
@@ -27,17 +27,17 @@ export default async function DashboardLayout({
           <div className="flex items-center gap-4">
             <Link
               href="/admin"
-              aria-label="India VC&PE Women’s Speaker Bureau — admin home"
+              aria-label="India VC&PE Women’s Speaker Collective — admin home"
             >
               <img
                 src="/bureau-mark-dark.png"
-                alt="India VC&PE Women’s Speaker Bureau"
+                alt="India VC&PE Women’s Speaker Collective"
                 className="h-9 w-auto"
               />
             </Link>
             <div>
               <h1 className="text-sm font-semibold text-white">
-                Women’s Speaker Bureau — Admin
+                Women’s Speaker Collective — Admin
               </h1>
               <p className="text-xs text-white/60">
                 {admin.email}

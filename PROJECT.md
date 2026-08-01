@@ -1,4 +1,4 @@
-# Women's Speaker Bureau — Project Spec
+# Women's Speaker Collective — Project Spec
 
 ## Overview
 A free, India-focused, public-facing directory of women speakers, built and run
@@ -97,7 +97,7 @@ like to connect with {{speaker_name}} ({{speaker_designation}}) —
 I'll let you two take it from here!
 
 Best,
-[Admin name], Women's Speaker Bureau
+[Admin name], Women's Speaker Collective
 ```
 
 ## Admin Dashboard

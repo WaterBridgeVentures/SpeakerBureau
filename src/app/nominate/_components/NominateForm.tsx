@@ -237,7 +237,7 @@ export function NominateForm({
             className="mt-0.5 accent-wbv-primary"
           />
           <span>
-            I consent to the Women’s Speaker Bureau storing and using the
+            I consent to the Women’s Speaker Collective storing and using the
             information I’ve submitted to list me in the public directory and to
             facilitate introduction requests.
           </span>

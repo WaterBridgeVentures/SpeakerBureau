@@ -9,7 +9,7 @@ import { Header } from '@/app/_components/Header';
 import { Footer } from '@/app/_components/Footer';
 
 export const metadata: Metadata = {
-  title: 'Speaker Directory — Women’s Speaker Bureau',
+  title: 'Speaker Directory — Women’s Speaker Collective',
   description:
     'Browse and search approved women speakers by name, industry, and domain.',
 };

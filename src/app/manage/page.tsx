@@ -10,7 +10,7 @@ import { ManageProfileForm } from '@/app/manage/_components/ManageProfileForm';
 import { signOutManage } from '@/app/manage/actions';
 
 export const metadata: Metadata = {
-  title: 'Manage your profile — Women’s Speaker Bureau',
+  title: 'Manage your profile — Women’s Speaker Collective',
   description:
     'Listed speakers can sign in with a secure link to update their bio, photo, and location, or pause their listing.',
 };
@@ -50,7 +50,7 @@ export default async function ManagePage() {
             You’re signed in as{' '}
             <span className="font-medium">{user.email}</span>, but that email
             isn’t linked to an approved speaker profile. If you believe this is a
-            mistake, contact the bureau.
+            mistake, contact the collective.
           </p>
           <form action={signOutManage} className="mt-4">
             <button

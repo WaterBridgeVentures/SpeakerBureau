@@ -9,9 +9,9 @@ import { Header } from '@/app/_components/Header';
 import { Footer } from '@/app/_components/Footer';
 
 export const metadata: Metadata = {
-  title: 'Nominate Yourself — Women’s Speaker Bureau',
+  title: 'Nominate Yourself — Women’s Speaker Collective',
   description:
-    'Add yourself to the Women’s Speaker Bureau directory. Sign in with LinkedIn to autofill, or enter your details manually.',
+    'Add yourself to the Women’s Speaker Collective directory. Sign in with LinkedIn to autofill, or enter your details manually.',
 };
 
 export default async function NominatePage({
@@ -56,7 +56,7 @@ export default async function NominatePage({
               Nominate Yourself
             </h1>
             <p className="mt-1 text-sm text-gray-500">
-              Join the Women’s Speaker Bureau directory. Submissions are reviewed
+              Join the Women’s Speaker Collective directory. Submissions are reviewed
               before they appear publicly.
             </p>
           </div>

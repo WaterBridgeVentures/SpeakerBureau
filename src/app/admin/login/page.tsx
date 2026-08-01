@@ -5,7 +5,7 @@ import { getAdmin } from '@/lib/dal';
 import { LoginForm } from '@/app/admin/_components/LoginForm';
 
 export const metadata: Metadata = {
-  title: 'Admin sign in — Women’s Speaker Bureau',
+  title: 'Admin sign in — Women’s Speaker Collective',
 };
 
 export default async function AdminLoginPage() {
@@ -17,7 +17,7 @@ export default async function AdminLoginPage() {
     <main className="flex min-h-screen items-center justify-center bg-wbv-ivory px-4 py-12">
       <div className="w-full max-w-sm rounded-xl border border-wbv-slate/30 bg-white p-6 shadow-sm sm:p-8">
         <h1 className="text-lg font-semibold text-wbv-secondary">
-          Women’s Speaker Bureau
+          Women’s Speaker Collective
         </h1>
         <p className="mt-1 text-sm text-gray-500">Admin dashboard sign in</p>
         <div className="mt-6">

@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Women’s Speaker Bureau",
-  description:
-    "Featuring expert speakers in the Indian Venture Capital and Private Equity Eco-System. In a quest to end MAN-els, spotlight women domain knowledge experts and enable warm introductions. Independent and self-hosted with thanks to our supporters.",
+  title: "Women’s Speaker Collective",
+  // Short tagline — the default meta description for browser tabs, nav, and
+  // social share previews. The fuller mission text lives on the homepage body.
+  description: "Knowledge experts from the Indian PE and VC eco-system",
 };
 
 export default function RootLayout({

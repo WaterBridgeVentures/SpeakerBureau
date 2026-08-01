@@ -31,7 +31,7 @@ export function IntroRequestForm({
           Request received — pending review
         </p>
         <p className="mt-1 text-sm text-emerald-800">
-          Thanks! Your request is now with the bureau for review. If{' '}
+          Thanks! Your request is now with the collective for review. If{' '}
           {speakerName} is happy to connect, we’ll send a warm introduction to
           your email. A confirmation is on its way to your inbox — no further
           action needed.
@@ -61,7 +61,7 @@ export function IntroRequestForm({
           Request an introduction to {speakerName}
         </h2>
         <p className="mt-0.5 text-xs text-gray-500">
-          The bureau reviews every request before making a warm introduction.
+          The collective reviews every request before making a warm introduction.
         </p>
       </div>
 
@@ -171,7 +171,7 @@ export function IntroRequestForm({
           className="mt-0.5 accent-wbv-primary"
         />
         <span>
-          I consent to the Women’s Speaker Bureau storing and using the
+          I consent to the Women’s Speaker Collective storing and using the
           information I’ve submitted to review and facilitate this introduction
           request.
         </span>

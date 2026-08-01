@@ -1,4 +1,4 @@
-# Women's Speaker Bureau — Product Requirements (as built)
+# Women's Speaker Collective — Product Requirements (as built)
 
 A free, India-focused, public directory of women speakers, run by a single
 non-technical operator. No commercial component — a diversity & inclusion
@@ -167,7 +167,7 @@ replying to this email will go straight to them.
 I'll let you two take it from here!
 
 Best,
-{BUREAU_ADMIN_NAME}, Women's Speaker Bureau
+{BUREAU_ADMIN_NAME}, Women's Speaker Collective
 ```
 - **Recipients:** `[requester_email, speaker.email]`. If the speaker has no email, falls back to `[requester_email, BUREAU_ADMIN_EMAIL]`.
 - **Reply-to:** the **requester's** address, so a speaker's reply reaches them directly.

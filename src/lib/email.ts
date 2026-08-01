@@ -5,7 +5,7 @@ import { Resend } from 'resend';
 // Configurable via env; sensible fallbacks for local dev. RESEND_FROM must be a
 // verified sender in Resend for real delivery.
 const FROM =
-  process.env.RESEND_FROM ?? "Women's Speaker Bureau <onboarding@resend.dev>";
+  process.env.RESEND_FROM ?? "Women's Speaker Collective <onboarding@resend.dev>";
 const ADMIN_EMAIL = process.env.BUREAU_ADMIN_EMAIL ?? 'anjali@waterbridge.vc';
 const ADMIN_NAME = process.env.BUREAU_ADMIN_NAME ?? 'Anjali';
 
@@ -85,7 +85,7 @@ export function buildWarmIntroEmail(p: {
 
   const text =
     `Hi ${p.requesterName} and ${p.speakerName},\n\n` +
-    `${p.requesterName}, thank you for using the Women's Speaker Bureau to ` +
+    `${p.requesterName}, thank you for using the Women's Speaker Collective to ` +
     `find a speaker — great to see the directory being put to use! I'm happy ` +
     `to make this introduction.\n\n` +
     `${p.requesterName} (${org}) would like to connect with ${p.speakerName} ` +
@@ -95,7 +95,7 @@ export function buildWarmIntroEmail(p: {
     `${remarks}\n\n` +
     `I'll let you two take it from here — ${p.requesterName}, I've cc'd you ` +
     `both so you can connect directly.\n\n` +
-    `Best,\n${ADMIN_NAME}, Women's Speaker Bureau`;
+    `Best,\n${ADMIN_NAME}, Women's Speaker Collective`;
   return { subject, text, html: textToHtml(text) };
 }
 
@@ -107,11 +107,11 @@ export function buildIntroRequestReceivedEmail(p: {
   const text =
     `Hi ${p.requesterName},\n\n` +
     `Thanks for your request to be introduced to ${p.speakerName} through the ` +
-    `Women's Speaker Bureau. It's now pending review.\n\n` +
+    `Women's Speaker Collective. It's now pending review.\n\n` +
     `We review every request before making a warm introduction. If ` +
     `${p.speakerName} is happy to connect, you'll receive an introduction ` +
     `email — no further action is needed from you in the meantime.\n\n` +
-    `Best,\n${ADMIN_NAME}, Women's Speaker Bureau`;
+    `Best,\n${ADMIN_NAME}, Women's Speaker Collective`;
   return { subject, text, html: textToHtml(text) };
 }
 
@@ -119,28 +119,28 @@ export function buildManageLinkEmail(p: {
   name: string;
   url: string;
 }): { subject: string; text: string; html: string } {
-  const subject = 'Sign in to manage your Women’s Speaker Bureau profile';
+  const subject = 'Sign in to manage your Women’s Speaker Collective profile';
   const text =
     `Hi ${p.name},\n\n` +
-    `Use the link below to sign in and update your Women's Speaker Bureau ` +
+    `Use the link below to sign in and update your Women's Speaker Collective ` +
     `profile — your bio, photo, and location, or to pause your listing.\n\n` +
     `${p.url}\n\n` +
     `This link signs you in directly and will expire shortly. If you didn't ` +
     `request it, you can safely ignore this email.\n\n` +
-    `Best,\n${ADMIN_NAME}, Women's Speaker Bureau`;
+    `Best,\n${ADMIN_NAME}, Women's Speaker Collective`;
   return { subject, text, html: textToHtml(text) };
 }
 
 export function buildNominationApprovedEmail(p: {
   name: string;
 }): { subject: string; text: string; html: string } {
-  const subject = 'You’re now listed in the Women’s Speaker Bureau';
+  const subject = 'You’re now listed in the Women’s Speaker Collective';
   const text =
     `Hi ${p.name},\n\n` +
-    `Great news — your nomination to the Women's Speaker Bureau has been ` +
+    `Great news — your nomination to the Women's Speaker Collective has been ` +
     `approved, and your profile is now live in the public directory.\n\n` +
     `Thank you for being part of this initiative.\n\n` +
-    `Best,\n${ADMIN_NAME}, Women's Speaker Bureau`;
+    `Best,\n${ADMIN_NAME}, Women's Speaker Collective`;
   return { subject, text, html: textToHtml(text) };
 }
 
