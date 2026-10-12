@@ -7,6 +7,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { sendManageLink } from '@/lib/email';
+import { resolvePhoto } from '@/lib/photo-storage';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const URL_RE = /^https?:\/\/.+/i;
@@ -115,19 +116,27 @@ export async function updateOwnProfile(
 
   const bio = String(formData.get('bio') ?? '').trim() || null;
   const location = String(formData.get('location') ?? '').trim() || null;
-  const photo_url = String(formData.get('photo_url') ?? '').trim() || null;
-  if (photo_url && !URL_RE.test(photo_url)) {
+
+  const photoFileRaw = formData.get('photo_file');
+  const photoFile =
+    photoFileRaw instanceof File && photoFileRaw.size > 0 ? photoFileRaw : null;
+  const photoUrlInput = String(formData.get('photo_url') ?? '').trim();
+  if (!photoFile && photoUrlInput && !URL_RE.test(photoUrlInput)) {
     return {
       error: 'Photo URL must start with http:// or https://, or be left blank.',
     };
   }
+
+  // Upload or re-host the photo to permanent storage so it can't expire.
+  const photo = await resolvePhoto({ file: photoFile, url: photoUrlInput || null });
+  if (photo.error) return { error: photo.error };
 
   // Service role, but scoped to this speaker's own id (resolved from their
   // authenticated email) and only the fields a speaker may self-edit.
   const svc = createAdminClient();
   const { error } = await svc
     .from('speakers')
-    .update({ bio, location, photo_url })
+    .update({ bio, location, photo_url: photo.url })
     .eq('id', id);
   if (error) return { error: error.message };
 

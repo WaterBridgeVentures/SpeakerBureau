@@ -153,19 +153,25 @@ export function ManageProfileForm({
         </div>
 
         <div>
-          <label htmlFor="photo_url" className={labelCls}>
-            Photo URL
-          </label>
+          <span className={labelCls}>Photo</span>
+          <input
+            id="photo_file"
+            name="photo_file"
+            type="file"
+            accept="image/png,image/jpeg,image/webp,image/gif"
+            className="mt-1 block w-full text-sm text-gray-600 file:mr-3 file:rounded-md file:border-0 file:bg-wbv-primary file:px-3 file:py-2 file:text-sm file:font-medium file:text-white hover:file:brightness-95"
+          />
           <input
             id="photo_url"
             name="photo_url"
             type="url"
             defaultValue={speaker.photo_url ?? ''}
-            placeholder="https://…"
+            placeholder="…or paste an image URL"
             className={inputCls}
           />
           <p className="mt-1 text-xs text-gray-400">
-            A direct link to a square headshot works best.
+            Upload a new photo or paste a link — a square headshot works best.
+            It’s stored on the Collective, so it won’t expire.
           </p>
         </div>
 

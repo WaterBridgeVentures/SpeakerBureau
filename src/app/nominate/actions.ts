@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { resolvePhoto } from '@/lib/photo-storage';
 import {
   DOMAINS,
   INDUSTRIES,
@@ -35,7 +36,10 @@ export async function submitNomination(
   const email = String(formData.get('email') ?? '').trim();
   const designation = String(formData.get('designation') ?? '').trim();
   const linkedin_url = String(formData.get('linkedin_url') ?? '').trim();
-  const photo_url = String(formData.get('photo_url') ?? '').trim() || null;
+  const photoFileRaw = formData.get('photo_file');
+  const photoFile =
+    photoFileRaw instanceof File && photoFileRaw.size > 0 ? photoFileRaw : null;
+  const photoUrlInput = String(formData.get('photo_url') ?? '').trim();
   const bio = String(formData.get('bio') ?? '').trim() || null;
   const location = String(formData.get('location') ?? '').trim() || null;
   const format = String(formData.get('in_person_or_virtual') ?? '');
@@ -59,7 +63,7 @@ export async function submitNomination(
   if (!/^https?:\/\//i.test(linkedin_url)) {
     return { error: 'Enter a full LinkedIn URL starting with http:// or https://' };
   }
-  if (photo_url && !/^https?:\/\//i.test(photo_url)) {
+  if (!photoFile && photoUrlInput && !/^https?:\/\//i.test(photoUrlInput)) {
     return { error: 'Photo URL must start with http:// or https://' };
   }
   if (industries.includes(OTHERS) && !industryOther) {
@@ -82,6 +86,11 @@ export async function submitNomination(
   const providers = (user?.app_metadata?.providers as string[] | undefined) ?? [];
   const verified = providers.includes('linkedin_oidc');
 
+  // Upload or re-host the photo to permanent storage (LinkedIn's signed URLs
+  // expire) so it never breaks later.
+  const photo = await resolvePhoto({ file: photoFile, url: photoUrlInput || null });
+  if (photo.error) return { error: photo.error };
+
   // Service role so we can insert the speaker + its join rows and read back the
   // new id. The action fully controls the values and hardcodes status=pending.
   const svc = createAdminClient();
@@ -92,7 +101,7 @@ export async function submitNomination(
       email,
       designation,
       linkedin_url,
-      photo_url,
+      photo_url: photo.url,
       bio,
       location,
       in_person_or_virtual: (SPEAKING_FORMATS as string[]).includes(format)

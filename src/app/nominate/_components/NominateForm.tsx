@@ -151,20 +151,27 @@ export function NominateForm({
         </div>
 
         <div>
-          <label htmlFor="photo_url" className={labelCls}>
-            Photo URL <span className="text-gray-400">(optional)</span>
-          </label>
+          <span className={labelCls}>
+            Photo <span className="text-gray-400">(optional)</span>
+          </span>
+          <input
+            id="photo_file"
+            name="photo_file"
+            type="file"
+            accept="image/png,image/jpeg,image/webp,image/gif"
+            className="mt-1 block w-full text-sm text-gray-600 file:mr-3 file:rounded-md file:border-0 file:bg-wbv-primary file:px-3 file:py-2 file:text-sm file:font-medium file:text-white hover:file:brightness-95"
+          />
           <input
             id="photo_url"
             name="photo_url"
             type="url"
             defaultValue={prefill?.photo_url ?? ''}
             className={inputCls}
-            placeholder="https://…/your-photo.jpg"
+            placeholder="…or paste an image URL"
           />
           <p className="mt-1 text-xs text-gray-400">
-            Autofilled from LinkedIn if you signed in. Otherwise paste a link to
-            a photo.
+            Upload a photo or paste a link. Autofilled from LinkedIn if you
+            signed in — we store it on the Collective so it won’t expire.
           </p>
         </div>
 
